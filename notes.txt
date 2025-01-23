@@ -1,1 +1,32 @@
 RISC-V Architecture Notes
+
+
+All instructions are 32-bits
+Types of instructions:
+R-Type instructions: register-to-register arithmetic and logical operations. two source registers and one destination register-to-register
+
+I-Type instructions: immediate instructions. uses a 12 bit immediate value with two register operands
+
+S-Type instructions: stores data from a register to memory. two register operands and a 12-bit immediate value for memory address offset
+
+B-Type instructions: conditional branch operations, jumps to a differnet instruction based on a condition. two register operands as a 12-bit immediate value for the branch target address
+
+U-Type instructions: operations with 20-bit immediate values, like loading a constat into a register
+
+J-Type instruction: unconditional jump operations, one register operand and a 20-bit immediate value for the target address
+
+Integer Registers:
+
+32 integer registers that are 32 bits wide
+x0: always zero
+x1-x32 are general purpose with specific names
+x1 (ra) return address register, stores the return address in a function call
+x2 (sp) stack pointer register, stores the pointer for position in the stack
+x3 (gp) global pointer register, stores the pointer for accessing global data
+x4 (tp) thread pointer register,  stores the pointer for thread-local storage
+x5-x11 (t0-t6) temporary registers, stores intermediate values during calculations
+x10-x17 (a0-a7) argument registers, stores function arguments for passing
+x8, x9, x18-x27 (s0-s11) saved registers, preserves values across function calls
+x28-x31 (t3-t6) additional temporary registers
+
+Memory Model: 
