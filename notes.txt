@@ -29,4 +29,19 @@ x10-x17 (a0-a7) argument registers, stores function arguments for passing
 x8, x9, x18-x27 (s0-s11) saved registers, preserves values across function calls
 x28-x31 (t3-t6) additional temporary registers
 
-Memory Model: 
+Memory Model: Both virtual and physical memory
+Virtual Memory: abstraction layer between the processor and physical memory
+Allows for:
+Memory Isolation: Provides separate address space for a process which is better for security and stability
+Memory Management: Allows the OS to manage memory by allocating and deallocating it
+Address Space Extension: Allows for larger address space, to allow usage of disk space as secondary storage
+
+Implemented using a multi-level page table that translates virtual addresses to physical addresses with table lookups
+
+Physical memory is organized into a flat address space. It is accesses thru the memory model that translates virtual addresses to physical ones
+
+Memory management unit (MMU): translates virtual addresses to physical ones using the multi-level page table mechanism
+Supports multiple memory addressing modes:
+Base+offset addressing: calculated by adding a base register value with an immediate offset value. useful for accessing element in an array or accessing variables in a functions stack frame
+Immediate addressing: value provided by instruction. useful for global variables and constants
+Register-indirect addressing: address is stored in a register and the instruction states with register to use. useful for pointers and dynamic memory allocation
