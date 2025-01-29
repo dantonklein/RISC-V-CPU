@@ -52,6 +52,7 @@ source registers: rs1 rs2
 destination register: rd
 
 
+RV32I Instruction Formats
 R-type  funct7[31:25]    rs2[24:20] rs1[19:15] funct3[14:12] rd[11:7]         opcode[6:0]
 
 I-type  imm[11:0][31:20]            rs1[19:15] funct3[14:12] rd[11:7]         opcode[6:0]
@@ -62,5 +63,39 @@ SB-type imm[12]imm[10:5] rs2[24:20] rs1[19:15] funct3[14:12] imm[4:1] imm[11] op
 
 U-type  imm[31:12]                                           rd[11:7]         opcode[6:0]
 
-UJ-type imm[20]imm[10:1]imm[1]imm[19:12]                     rd[11:7]         opcode[6:0]
+UJ-type imm[20]imm[10:1]imm[11]imm[19:12]                     rd[11:7]         opcode[6:0]
 
+RV32I opcode map
+inst[6:2]  Action
+00000		Loads
+00001		Floating Point Extension
+00010		
+00011		Fences
+00100		Arithmetic
+00101		AUIPC
+00110		RV64I
+00111		
+01000		Stores
+01001		Floating Point Extension
+01010		
+01011		A Extension
+01100		Arithmetic
+01101		LUI  
+01110		RV64I
+01111		
+10000		Floating Point Extension
+10001		Floating Point Extension
+10010		Floating Point Extension
+10011		Floating Point Extension
+10100		Floating Point Extension
+10101		
+10110		RV128I
+10111		
+11000		Branches
+11001		JALR
+11010		
+11011		JAL
+11100		System
+11101		
+11110		RV128I
+11111		
