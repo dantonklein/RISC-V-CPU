@@ -45,3 +45,22 @@ Supports multiple memory addressing modes:
 Base+offset addressing: calculated by adding a base register value with an immediate offset value. useful for accessing element in an array or accessing variables in a functions stack frame
 Immediate addressing: value provided by instruction. useful for global variables and constants
 Register-indirect addressing: address is stored in a register and the instruction states with register to use. useful for pointers and dynamic memory allocation
+
+RV32I instructions are 32 bits and are stored aligned in memory, in little-endian byte order
+
+source registers: rs1 rs2
+destination register: rd
+
+
+R-type  funct7[31:25]    rs2[24:20] rs1[19:15] funct3[14:12] rd[11:7]         opcode[6:0]
+
+I-type  imm[11:0][31:20]            rs1[19:15] funct3[14:12] rd[11:7]         opcode[6:0]
+
+S-type  imm[11:5]     	 rs2[24:20] rs1[19:15] funct3[14:12] imm[4:0]         opcode[6:0]
+
+SB-type imm[12]imm[10:5] rs2[24:20] rs1[19:15] funct3[14:12] imm[4:1] imm[11] opcode[6:0]
+
+U-type  imm[31:12]                                           rd[11:7]         opcode[6:0]
+
+UJ-type imm[20]imm[10:1]imm[1]imm[19:12]                     rd[11:7]         opcode[6:0]
+
