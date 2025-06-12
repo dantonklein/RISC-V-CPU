@@ -1,0 +1,21 @@
+Notes in Gville
+
+There are 32 registers and 2^30 memory words
+Risc V is byte addressed, each word is separated by 4
+
+Arithmetic.
+add a, b, c : adds b and c and stores in a
+
+Each arithmetic instruction only performs one operation and always has 3 variables
+
+Design Principle 1: simplicity favors regularity
+Design Principle 2: Smaller is faster
+Registers are 32 bits
+
+Data transfer instructions
+
+Spilling registers: the proess of putting less frequently used variables into memory
+
+x0 is hardwired to zero
+
+Least significant bit is the right and most is the left
