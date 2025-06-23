@@ -1,8 +1,0 @@
-# Compile of primitives.sv failed with 2 errors.
-# Error opening C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/(vlog-13069) C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
-# Path name 'C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/(vlog-13069) C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv' doesn't exist.
-# Error opening C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/(vlog-13069) C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
-# Path name 'C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/(vlog-13069) C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv' doesn't exist.
-# Error opening C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/(vlog-13069) C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
-# Path name 'C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/(vlog-13069) C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv' doesn't exist.
-# Compile of primitives.sv was successful.

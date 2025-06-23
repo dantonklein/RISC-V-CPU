@@ -99,3 +99,22 @@ inst[6:2]  Action
 11101		
 11110		RV128I
 11111		
+
+
+COMP ARCH NOTES
+
+7 great ideas in computer architecture
+
+Use abstraction to simplify design: use abstractions to characterize the design at different levels of representation
+
+Make the common case fast
+
+Performance via parallelism
+
+performance via pipelining
+
+performance via prediction
+
+hierarchy of memories
+
+Five classical components of a computer are input, output, memory, datapath, and control
