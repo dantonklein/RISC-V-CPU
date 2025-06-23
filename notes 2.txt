@@ -10,6 +10,7 @@ Each arithmetic instruction only performs one operation and always has 3 variabl
 
 Design Principle 1: simplicity favors regularity
 Design Principle 2: Smaller is faster
+Design Principle 3: Good design demands good compromises
 Registers are 32 bits
 
 Data transfer instructions
@@ -19,3 +20,50 @@ Spilling registers: the proess of putting less frequently used variables into me
 x0 is hardwired to zero
 
 Least significant bit is the right and most is the left
+
+Risc V Fields (R type)
+Funct7[31:25] RS2[24:20] RS1[19:15] Funct3[14:12] RD[11:7] Opcode[6:0]
+
+Opcode: basic operation of the instruction
+RD: Destination register
+Funct3: 3 bits providing opcode information
+RS1: first register source operand
+RS2: second register source operand
+funct7: 7 bits providing opcode information
+
+I type: 
+Immediate[31:20] RS1[19:15] Funct3[14:12] RD[11:7] Opcode[6:0]
+
+12-bit immeddiate is twos complement, so it can represent numbers from -2048 to 2047
+
+S type:
+Immediate[31:25] RS2[24:20] RS1[19:15] Funct3[14:12] Immediate[11:7] Opcode[6:0]
+
+The opcode field distinguishes between the type of instruction
+
+x10-x17: regiters in which parameters are passed and returned
+x1: return address register after the function is done
+
+jump-and-link instruction (jal) jumps to a function and loads the return address in x1
+
+jalr branches to the address stored in xn
+jalr x0, 0(xn)
+
+program counter: register that holds the address of the current instruction
+
+stack pointer is x2
+
+software designates x5-x7 and x28-x31 to not be preserved
+and x8-x9 and x18-x27 to be preserved
+
+procedure frame/activation record: the part of the stack containing a procedures saved registers and local variables
+
+some risc v compilers use a frame pointer(x8) to point to the first word of the frame
+
+for linux, the stack starts in the high end of the user addresses space and grows down
+bottom of the memory is reserved
+above that is the text segment, used for the machine code
+above that is the static segment, used for constants and static variables
+the heap/dynamic data segment is placed next
+
+
