@@ -66,4 +66,66 @@ above that is the text segment, used for the machine code
 above that is the static segment, used for constants and static variables
 the heap/dynamic data segment is placed next
 
+load upper immediate (lui) is used to load bits 31-12 for constants
 
+RISC V uses PC-relative addressing for conditional branches and jumps.
+program counter = program counter + branch offset
+
+for jumps farther than 2^18 words you must use lui and jalr together
+
+halfwords are used to represent the distance between the branch and branch target
+
+atomic exchange or atomic swap: interchanges a value in a register for a value in memory
+
+load-reserved word (lrw) and store-conditional word (sc.w)
+
+if the contents of the memory location specified by lrw are changed before scw to the same address happens, then it fails
+
+sc.w specifies 3 registers, one to hold the address, one to indicate if the atomic operation worked, and one to hold the value to be stored in memory
+
+for translating C to assembly by hand, we follow these steps
+
+1. allocate registers to program variables
+2. produce code for the body of the procedure
+3. preserve registers across the procedure invocation
+
+void swap(int v[], size_t k)
+{
+	int temp;
+	temp = v[k];
+	v[k] = v[k+1];
+	v[k+1] = temp;
+}
+
+parameters v and k will be passed in with x10 and x11, temp will be stored in x5
+	
+swap:
+
+	slli x6, x11, 2 //reg x6 = k * 4
+	add x6, x10, x6 //reg x6 = v + (k * 4)
+	
+	load v[k] using the byte address in x6
+	
+	lw x5, 0(x6) //reg x5 (temp) v[k]
+	lw x7, 4(x6) //reg x7 = v[k+1]
+	
+	sw x7, 0(x6) //v[k] = reg x7
+	sw x5, 4(x6) //v[1] = reg x5
+	jalr x0, 0(x1) // return to calling routine
+	
+M extension: adds instructions too multiply and divide integers
+A extension: supports atomic memory operations for multiprocessor synchronization
+F and D extension: floating point
+C: compressed extensions, 16 bit versions of common instructions
+
+overflow occurs when adding two positive numbers and the sum is negative, and vice versa
+subtraction overflow happens when a - number is subtracted from a positive one and u get negative
+or when a + number is subtracted from a negative and you get positive
+
+floating point numbers:
+ s[31] exponent[30:23] fraction[22:0]
+ 
+ (-1)^S x (1 + F) x 2^E
+ 
+doubles:
+s[63] exponent[62:51] fraction[50:0]
