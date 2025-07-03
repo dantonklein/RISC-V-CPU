@@ -263,3 +263,4 @@ memory-reference instructions use the alu for address calculation and branches u
 after the alu memory-reference instructions will need to acess the memory to either read or write data
 arithmetic-logical and load instructions need to write the data to a register
 conditioner branch needs to modify the program counter
+
