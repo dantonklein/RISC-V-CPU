@@ -20,6 +20,15 @@ module ram_tb #(
         .DATA_WIDTH(DATA_WIDTH),
         .ADDR_WIDTH(ADDR_WIDTH),
     ) DUT (
-
+        .clk(clk),
+        .rst(rst),
+        .address(address),
+        .data_in(data_in),
+        .write(write),
+        .read(read),
+        .data_out(data_out)
     );
+
+    bit addresses_used[]
+
 endmodule
