@@ -1,5 +1,4 @@
-//Something doesnt work
-module ram_tb #(
+module registerfile_tb #(
 
     parameter int DATA_WIDTH = 32,
     parameter int NUM_REGISTERS = 32
@@ -24,6 +23,7 @@ module ram_tb #(
     ) DUT (
         .clk(clk),
       	.rst(rst),
+        .write(write),
         .reg_rd0(reg_rd0),
       	.reg_rd1(reg_rd1),
       	.reg_wr(reg_wr),
@@ -45,13 +45,13 @@ module ram_tb #(
       
        	// Initialize all control signals
       	rst <= 1'b1;
-        write <= '0;
+        write <= 1'b0;
       	reg_rd0 <= '0;
         reg_rd1 <= '0;
         reg_wr <= '0;
         data_in <= '0;
         
-        @(posedge clk);
+        repeat(2) @(posedge clk);
       
       	rst <= 1'b0;
       
@@ -62,8 +62,8 @@ module ram_tb #(
       	test_data0 = $urandom;
         write   <= 1'b1;
       
-      	data_in <= test_data0;
-        reg_wr <= addr;
+      	data_in = test_data0;
+        reg_wr = addr;
         @(posedge clk);
       
       	//Write some data to the 1st register
@@ -71,8 +71,8 @@ module ram_tb #(
       	test_data1 = $urandom;
         write   <= 1'b1;
       
-      	data_in <= test_data1;
-        reg_wr <= addr;
+      	data_in = test_data1;
+        reg_wr = addr;
         @(posedge clk);
       	
       
@@ -81,7 +81,6 @@ module ram_tb #(
       	reg_rd0 <= 5'b00000;
       	reg_rd1 <= 5'b00001;
         @(posedge clk);
-      	@(posedge clk);
 		
       $display("Test_data0: 0x%h", test_data0);	
       $display("Test_data1: 0x%h", test_data1);

@@ -19,22 +19,24 @@ module registerfile
 );
     logic [DATA_WIDTH-1:0] registers[NUM_REGISTERS];
 
-
     always_ff @(posedge clk or posedge rst) begin
         if(rst) begin
-            data_out0 <= '0;
-            data_out1 <= '0;
             for(int i = 0; i < NUM_REGISTERS; i = i + 1) begin
                 registers[i] <= '0;
             end
         end
 
         else begin
-            if(write) registers[reg_wr] <= data_in;
-
-            data_out0 <= registers[reg_rd0];
-            data_out1 <= registers[reg_rd1];
+            if(write) begin
+                registers[reg_wr] <= data_in;
+            end
         end
+
+    end
+
+    always_comb begin
+        data_out0 = registers[reg_rd0];
+        data_out1 = registers[reg_rd1];
     end
 
 endmodule
