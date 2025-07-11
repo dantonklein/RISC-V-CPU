@@ -264,3 +264,10 @@ after the alu memory-reference instructions will need to acess the memory to eit
 arithmetic-logical and load instructions need to write the data to a register
 conditioner branch needs to modify the program counter
 
+For controlling the immediate generation logic it has to extend either 
+31:20 for load instructions,
+31:25 and 11:7 for store instructions,
+or 31, 7, 30:25, and 11:8 for conditional branch
+
+opcode bit 6 is 0 for loads and stores and 1 for branches
+bit 5 is 0 for loads and 1 for stores
