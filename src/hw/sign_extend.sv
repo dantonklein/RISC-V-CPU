@@ -3,7 +3,7 @@ parameter int DATA_WIDTH = 32,
 parameter int INPUT_WIDTH = 12
 ) (
     input logic[INPUT_WIDTH-1:0] in,
-    output logic[INPUT_WIDTH-1:0] out
+    output logic[DATA_WIDTH-1:0] out
 );
 logic[DATA_WIDTH-INPUT_WIDTH-1:0] extend;
 always_comb begin

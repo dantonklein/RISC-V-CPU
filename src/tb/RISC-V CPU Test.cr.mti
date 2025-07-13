@@ -1,11 +1,15 @@
-C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv {1 {vlog -work work -sv -stats=none C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
+C:/Users/klein/Documents/Projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/klein/Documents/Projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module mux2x1
--- Compiling module register
--- Compiling module delay
+-- Compiling module immgen_tb
 
 Top level modules:
-	mux2x1
-	delay
+	immgen_tb
+
+} {} {}} C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv {1 {vlog -work work -sv -stats=none C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module immgen
+
+Top level modules:
+	immgen
 
 } {} {}}

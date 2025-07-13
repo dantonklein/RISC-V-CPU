@@ -1,0 +1,52 @@
+# Compile of immgen.sv was successful.
+# Compile of sign_extend.sv was successful.
+# 2 compiles, 0 failed with no errors.
+# Compile of immgen_tb.sv was successful.
+vsim -gui work.immgen_tb
+# vsim -gui work.immgen_tb 
+# Start time: 16:16:30 on Jul 13,2025
+# Loading sv_std.std
+# Loading work.immgen_tb
+# Loading work.immgen
+# Loading work.sign_extend
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'out'. The port definition is at: C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/sign_extend.sv(6).
+#    Time: 0 ps  Iteration: 0  Instance: /immgen_tb/DUT/signextend File: C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv Line: 29
+run -all
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:3413
+# S type format with positive number input:1365, output:1365
+# S type format with negative number input:-683, output:3413
+# SB type format with positive number input:2730, output:2730
+# SB type format with negative number input:-1366, output:6826
+# Compile of immgen_tb.sv was successful.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.immgen_tb
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'out'. The port definition is at: C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/sign_extend.sv(6).
+#    Time: 0 ps  Iteration: 0  Instance: /immgen_tb/DUT/signextend File: C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv Line: 29
+# Load canceled
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:3413
+# S type format with positive number input:1365, output:1365
+# S type format with negative number input:-683, output:3413
+# SB type format with positive number input:2730, output:2730
+# SB type format with negative number input:-1366, output:6826
+# Compile of sign_extend.sv was successful.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.sign_extend
+restart -f
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:-683
+# S type format with positive number input:1365, output:1365
+# S type format with negative number input:-683, output:-683
+# SB type format with positive number input:2730, output:2730
+# SB type format with negative number input:-1366, output:-1366

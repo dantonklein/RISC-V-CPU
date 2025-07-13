@@ -29,11 +29,61 @@ r1
 !s85 0
 31
 Z9 !s108 1738110893.000000
-!s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
-Z10 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
+Z10 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
+Z11 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
 !i113 1
-Z11 o-work work -sv
-Z12 tCvgOpt 0
+Z12 o-work work -sv
+Z13 tCvgOpt 0
+vimmgen
+R0
+!s110 1752437500
+!i10b 1
+!s100 JX_2lWZAEOnW57^n=1UKB2
+R2
+I`_aP>:RmC>3oVgKWN=<H]0
+R3
+S1
+Z14 dC:/Users/klein/Documents/Projects/RISC-V-CPU/src/tb
+w1752434663
+8C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv
+FC:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv
+!i122 2
+L0 2 37
+R8
+r1
+!s85 0
+31
+!s108 1752437500.000000
+!s107 C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/immgen.sv|
+!i113 1
+R12
+R13
+vimmgen_tb
+R0
+!s110 1752438643
+!i10b 1
+!s100 Pj;;3g1Vg=h2G483CX6aY0
+R2
+ILD^Kg9caLZA;Q]Sk0[m^Q2
+R3
+S1
+R14
+w1752438635
+8C:/Users/klein/Documents/Projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv
+FC:/Users/klein/Documents/Projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv
+!i122 5
+L0 1 60
+R8
+r1
+!s85 0
+31
+!s108 1752438642.000000
+!s107 C:/Users/klein/Documents/Projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/Projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv|
+!i113 1
+R12
+R13
 vmux2x1
 R0
 R1
@@ -54,11 +104,11 @@ r1
 !s85 0
 31
 R9
-Z13 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
 R10
-!i113 1
 R11
+!i113 1
 R12
+R13
 vregister
 R0
 R1
@@ -79,8 +129,33 @@ r1
 !s85 0
 31
 R9
-R13
 R10
-!i113 1
 R11
+!i113 1
 R12
+R13
+vsign_extend
+R0
+!s110 1752439941
+!i10b 1
+!s100 NP42KzK@LOA[`Nnei;W`23
+R2
+IK8zhJc?oHK@h0UF635nAm3
+R3
+S1
+R14
+w1752439780
+8C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/sign_extend.sv
+FC:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/sign_extend.sv
+!i122 6
+L0 1 17
+R8
+r1
+!s85 0
+31
+!s108 1752439941.000000
+!s107 C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/sign_extend.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/Projects/RISC-V-CPU/src/hw/sign_extend.sv|
+!i113 1
+R12
+R13

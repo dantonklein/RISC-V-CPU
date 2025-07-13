@@ -271,3 +271,5 @@ or 31, 7, 30:25, and 11:8 for conditional branch
 
 opcode bit 6 is 0 for loads and stores and 1 for branches
 bit 5 is 0 for loads and 1 for stores
+
+for alu contro l i will use a module called ALUOP, that takes in funct7 and funct3 and 2 bits from the opcode that controls the alu
