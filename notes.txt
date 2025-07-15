@@ -273,3 +273,23 @@ opcode bit 6 is 0 for loads and stores and 1 for branches
 bit 5 is 0 for loads and 1 for stores
 
 for alu contro l i will use a module called ALUOP, that takes in funct7 and funct3 and 2 bits from the opcode that controls the alu
+
+5 pipeline stages:
+1. fetch instruction from memory
+2. read registers and decode the instruction
+3. execute the operation or calculate an address
+4. access an operand in data memory
+5. write the result into a register
+
+three pipeline hazards
+
+structural: hardware cannot support the combination of instructions that we want to execute in the same clock cycle
+data: pipeline must be stalled because one step must wait for another to complete
+this can happen when one instruction depends on an earlier one thats still in the pipeline
+
+forwarding/bypassing: specialized hardware that obtains missing register data sooner
+
+control hazard: caused by the need to make a decision based on the results of one instruction while others are executing
+one solution: stall
+other: branch prediction
+dynamic branch prediction: change prediction based on whether the branch was taken or not
