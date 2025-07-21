@@ -1,5 +1,5 @@
 //Danton Klein
-//This document contains multiple simple entities that get utilized a lot in larger designs. Most of these are based on Dr. Gregory Stitt's SystemVerilog tutorial.
+//This file contains multiple simple entities that get utilized a lot in larger designs. Most of these are based on Dr. Gregory Stitt's SystemVerilog tutorial.
 
 module mux2x1
 #(

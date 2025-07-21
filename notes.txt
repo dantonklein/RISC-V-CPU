@@ -272,14 +272,14 @@ or 31, 7, 30:25, and 11:8 for conditional branch
 opcode bit 6 is 0 for loads and stores and 1 for branches
 bit 5 is 0 for loads and 1 for stores
 
-for alu contro l i will use a module called ALUOP, that takes in funct7 and funct3 and 2 bits from the opcode that controls the alu
+for alu control i will use a module called ALUOP, that takes in funct7 and funct3 and 2 bits from the opcode that controls the alu
 
 5 pipeline stages:
-1. fetch instruction from memory
-2. read registers and decode the instruction
-3. execute the operation or calculate an address
-4. access an operand in data memory
-5. write the result into a register
+1. fetch instruction from memory (IF)
+2. read registers and decode the instruction (ID)
+3. execute the operation or calculate an address (EX)
+4. access an operand in data memory (MEM)
+5. write the result into a register (WB)
 
 three pipeline hazards
 
@@ -293,3 +293,4 @@ control hazard: caused by the need to make a decision based on the results of on
 one solution: stall
 other: branch prediction
 dynamic branch prediction: change prediction based on whether the branch was taken or not
+
