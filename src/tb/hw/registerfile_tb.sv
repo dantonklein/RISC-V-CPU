@@ -62,8 +62,8 @@ module registerfile_tb #(
       	test_data0 = $urandom;
         write   <= 1'b1;
       
-      	data_in = test_data0;
-        reg_wr = addr;
+      	data_in <= test_data0;
+        reg_wr <= addr;
         @(posedge clk);
       
       	//Write some data to the 1st register
@@ -71,8 +71,8 @@ module registerfile_tb #(
       	test_data1 = $urandom;
         write   <= 1'b1;
       
-      	data_in = test_data1;
-        reg_wr = addr;
+      	data_in <= test_data1;
+        reg_wr <= addr;
         @(posedge clk);
       	
       
@@ -86,6 +86,23 @@ module registerfile_tb #(
       $display("Test_data1: 0x%h", test_data1);
       $display("Data_Out0: 0x%h", data_out0);
       $display("Data_Out1: 0x%h", data_out1);
+
+        //Test Write-First-Then-Read Functionality
+        write <= 1'b1;
+        addr = 5'b00010;
+        test_data1 = $urandom;
+        test_data0 = test_data1;
+        data_in <= test_data1;
+        reg_wr <= addr;
+
+        reg_rd0 <= 5'b00010;
+        reg_rd1 <= 5'b00010;
+
+        @(posedge clk);
+        $display("WFTR Test_data0: 0x%h", test_data0);	
+        $display("WFTR Test_data1: 0x%h", test_data1);
+        $display("WFTR Data_Out0: 0x%h", data_out0);
+        $display("WFTR Data_Out1: 0x%h", data_out1);
         disable generate_clk;
 
     end

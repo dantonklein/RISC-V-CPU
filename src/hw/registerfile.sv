@@ -35,8 +35,10 @@ module registerfile
     end
 
     always_comb begin
-        data_out0 = registers[reg_rd0];
-        data_out1 = registers[reg_rd1];
+        if(write == 1'b1 && reg_rd0 == reg_wr) data_out0 = data_in;
+        else data_out0 = registers[reg_rd0];
+        if(write == 1'b1 && reg_rd1 == reg_wr) data_out1 = data_in;
+        else data_out1 = registers[reg_rd1];
     end
 
 endmodule
