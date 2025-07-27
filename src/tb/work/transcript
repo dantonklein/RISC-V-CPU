@@ -1161,3 +1161,112 @@ run -all
 # 
 # 
 # Tests Finished.
+quit -sim
+# End time: 02:03:44 on Jul 27,2025, Elapsed time: 6:03:50
+# Errors: 0, Warnings: 1
+# Compile of immgen_tb.sv was successful.
+# Compile of immgen.sv failed with 1 errors.
+# 2 compiles, 1 failed with 1 error.
+# Compile of immgen.sv was successful.
+vsim -gui work.immgen_tb
+# vsim -gui work.immgen_tb 
+# Start time: 03:10:11 on Jul 27,2025
+# Loading sv_std.std
+# Loading work.immgen_tb
+# Loading work.immgen
+# Loading work.sign_extend
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'out'. The port definition is at: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv(6).
+#    Time: 0 ps  Iteration: 0  Instance: /immgen_tb/DUT/signextend File: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv Line: 32
+# WARNING: No extended dataflow license exists
+run -all
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:3413
+# S type format with positive number input:1365, output:1375
+# S type format with negative number input:-683, output:3423
+# SB type format with positive number input:2730, output:703
+# SB type format with negative number input:-1366, output:2751
+# U type format with number input:1431654400, output:1365
+# UJ type format with number input:1398100, output:3412
+# Compile of immgen_tb.sv was successful.
+# Compile of immgen.sv was successful.
+# 2 compiles, 0 failed with no errors.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.immgen_tb
+# Loading work.immgen
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'out'. The port definition is at: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv(6).
+#    Time: 0 ps  Iteration: 0  Instance: /immgen_tb/DUT/signextend File: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv Line: 32
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:3413
+# S type format with positive number input:1365, output:1365
+# S type format with negative number input:-683, output:3413
+# SB type format with positive number input:2730, output:2730
+# SB type format with negative number input:-1366, output:6826
+# U type format with number input:1431654400, output:1431654400
+# UJ type format with number input:1398100, output:1440038912
+# Compile of immgen.sv was successful.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.immgen
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'out'. The port definition is at: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv(6).
+#    Time: 0 ps  Iteration: 0  Instance: /immgen_tb/DUT/signextend File: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv Line: 32
+# Error opening C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/work/(vsim-3015) [PCDPC] - Port size (12) does not match connection size 
+# Path name 'C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/work/(vsim-3015) [PCDPC] - Port size (12) does not match connection size ' doesn't exist.
+# Compile of immgen.sv was successful.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.immgen
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'out'. The port definition is at: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv(6).
+#    Time: 0 ps  Iteration: 0  Instance: /immgen_tb/DUT/signextend File: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv Line: 32
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:3413
+# S type format with positive number input:1365, output:1365
+# S type format with negative number input:-683, output:3413
+# SB type format with positive number input:2730, output:2730
+# SB type format with negative number input:-1366, output:6826
+# U type format with number input:1431654400, output:1431654400
+# UJ type format with number input:1398100, output:1400148
+# Compile of immgen.sv was successful.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.immgen
+# ** Warning: (vsim-3015) [PCDPC] - Port size (12) does not match connection size (32) for port 'out'. The port definition is at: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv(6).
+#    Time: 0 ps  Iteration: 0  Instance: /immgen_tb/DUT/signextend File: C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv Line: 32
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:3413
+# S type format with positive number input:1365, output:1365
+# S type format with negative number input:-683, output:3413
+# SB type format with positive number input:2730, output:2730
+# SB type format with negative number input:-1366, output:6826
+# U type format with number input:1431654400, output:1431654400
+# UJ type format with number input:1398100, output:1398100
+# Compile of sign_extend.sv was successful.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.sign_extend
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# I type format with positive number input:1365, output:1365
+# I type format with negative number input:-683, output:-683
+# S type format with positive number input:1365, output:1365
+# S type format with negative number input:-683, output:-683
+# SB type format with positive number input:2730, output:2730
+# SB type format with negative number input:-1366, output:-1366
+# U type format with number input:1431654400, output:1431654400
+# UJ type format with number input:1398100, output:1398100
+# End time: 03:48:58 on Jul 27,2025, Elapsed time: 0:38:47
+# Errors: 0, Warnings: 1
