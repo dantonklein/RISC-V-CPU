@@ -11,32 +11,57 @@ cModel Technology
 dC:/Users/klein/Documents/cad/hw1
 valu
 Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z1 !s110 1751685593
+Z1 !s110 1753578606
 !i10b 1
-!s100 8P`Bd?IO<kRQJ^Nfjh`6G1
+!s100 =AeA2o;776fg??ZR5GPB`0
 Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
-I:gHMSLPZkNYVl4EOE0i3:2
+I=ALPRQ>KVn>SP?Ec8fXmn2
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 S1
 Z4 dC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/work
-w1751494155
+w1753578601
 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv
-!i122 2
-Z5 L0 1 17
-Z6 OV;L;2020.1;71
+!i122 50
+L0 1 45
+Z5 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z7 !s108 1751685593.000000
+Z6 !s108 1753578606.000000
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv|
 !i113 1
-Z8 o-work work -sv
-Z9 tCvgOpt 0
-vdelay
+Z7 o-work work -sv
+Z8 tCvgOpt 0
+valu_tb
 R0
 R1
+!i10b 1
+!s100 GAWZPPVEUaO=Z?LQzN_5e3
+R2
+I=Z`SN;Ycj5PW2VOZezQK<0
+R3
+S1
+R4
+w1753578561
+8C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb.sv
+FC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb.sv
+!i122 51
+L0 3 72
+R5
+r1
+!s85 0
+31
+R6
+!s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb.sv|
+!i113 1
+R7
+R8
+vdelay
+R0
+Z9 !s110 1751685593
 !i10b 1
 !s100 TNm=1Qb_6azLO?:4e:gfi1
 R2
@@ -49,19 +74,19 @@ Z11 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
 Z12 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
 !i122 3
 L0 41 28
-R6
+R5
 r1
 !s85 0
 31
-R7
-Z13 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
-Z14 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
+Z13 !s108 1751685593.000000
+Z14 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
+Z15 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
 !i113 1
+R7
 R8
-R9
 vimmgen
 R0
-Z15 !s110 1752199315
+Z16 !s110 1752199315
 !i10b 1
 !s100 JX_2lWZAEOnW57^n=1UKB2
 R2
@@ -74,19 +99,19 @@ w1752188053
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv
 !i122 32
 L0 2 37
-R6
+R5
 r1
 !s85 0
 31
-Z16 !s108 1752199315.000000
+Z17 !s108 1752199315.000000
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/immgen.sv|
 !i113 1
+R7
 R8
-R9
 vimmgen_tb
 R0
-R15
+R16
 !i10b 1
 !s100 3=CNA^zNj95dT6Di<oa2Y1
 R2
@@ -99,19 +124,19 @@ w1752198558
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv
 !i122 31
 L0 1 49
-R6
+R5
 r1
 !s85 0
 31
-R16
+R17
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/immgen_tb.sv|
 !i113 1
+R7
 R8
-R9
 vmux2x1
 R0
-R1
+R9
 !i10b 1
 !s100 1ZXaEa6]1m=EfDl;5?K2o0
 R2
@@ -124,16 +149,16 @@ R11
 R12
 !i122 3
 L0 4 14
-R6
+R5
 r1
 !s85 0
 31
-R7
 R13
 R14
+R15
 !i113 1
+R7
 R8
-R9
 vram
 R0
 !s110 1751687000
@@ -149,7 +174,7 @@ w1751686919
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/ram.sv
 !i122 6
 L0 1 20
-R6
+R5
 r1
 !s85 0
 31
@@ -157,8 +182,8 @@ r1
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/ram.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/ram.sv|
 !i113 1
+R7
 R8
-R9
 vram_tb
 R0
 !s110 1752124476
@@ -170,23 +195,23 @@ R3
 S1
 R4
 w1752124469
-Z17 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv
-Z18 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv
+Z18 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv
+Z19 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv
 !i122 16
 L0 1 92
-R6
+R5
 r1
 !s85 0
 31
 !s108 1752124476.000000
-!s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv|
-Z19 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv|
+Z20 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv|
+Z21 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv|
 !i113 1
+R7
 R8
-R9
 vregister
 R0
-R1
+R9
 !i10b 1
 !s100 8K4aiL9MaicYRIX9E:G@51
 R2
@@ -199,16 +224,16 @@ R11
 R12
 !i122 3
 L0 19 21
-R6
+R5
 r1
 !s85 0
 31
-R7
 R13
 R14
+R15
 !i113 1
+R7
 R8
-R9
 vregisterfile
 R0
 !s110 1753475559
@@ -224,7 +249,7 @@ w1753475516
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/registerfile.sv
 !i122 34
 L0 1 44
-R6
+R5
 r1
 !s85 0
 31
@@ -232,8 +257,8 @@ r1
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/registerfile.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/registerfile.sv|
 !i113 1
+R7
 R8
-R9
 vregisterfile_tb
 R0
 !s110 1753476336
@@ -245,23 +270,23 @@ R3
 S1
 R4
 w1753476322
-R17
 R18
+R19
 !i122 36
 L0 1 110
-R6
+R5
 r1
 !s85 0
 31
 !s108 1753476336.000000
-Z20 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/registerfile_tb.sv|
-R19
+R20
+R21
 !i113 1
+R7
 R8
-R9
 vsign_extend
 R0
-R15
+R16
 !i10b 1
 !s100 ??fjnT]^M7_j_a<0OMQAk1
 R2
@@ -273,14 +298,14 @@ w1751685406
 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv
 !i122 33
+L0 1 17
 R5
-R6
 r1
 !s85 0
 31
-R16
+R17
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/sign_extend.sv|
 !i113 1
+R7
 R8
-R9
