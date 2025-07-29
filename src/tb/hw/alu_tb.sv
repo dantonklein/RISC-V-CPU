@@ -8,7 +8,7 @@ module alu_tb #(
     logic clk;
     logic [DATA_WIDTH-1:0] input0;
     logic [DATA_WIDTH-1:0] input1;
-    logic [3:0] aluop;
+    logic [3:0] aluselect;
 
     logic [DATA_WIDTH-1:0] correct_out;
     logic [DATA_WIDTH-1:0] out;
@@ -20,7 +20,7 @@ module alu_tb #(
     ) DUT (
         .input0(input0),
         .input1(input1),
-        .aluop(aluop),
+        .aluselect(aluselect),
         .out(out),
         .is_zero(is_zero)
     );
@@ -33,12 +33,12 @@ module alu_tb #(
 
     initial begin
 
-        logic [3:0] aluop_temp;
+        logic [3:0] aluselect_temp;
         for (int i = 0; i < NUM_TESTS; i++) begin
-            aluop_temp = $urandom_range(0,9);
-            aluop <= aluop_temp;
+            aluselect_temp = $urandom_range(0,13);
+            aluselect <= aluselect_temp;
             input0 <= $urandom;
-            if(aluop_temp > 1 && aluop_temp < 5) begin
+            if(aluselect_temp > 1 && aluselect_temp < 5) begin
                 input1 <= $urandom_range(0,31);
             end
             else begin
@@ -46,24 +46,28 @@ module alu_tb #(
             end
             @(posedge clk);
 
-            if(aluop == 0) correct_out = input0 + input1;
-            else if(aluop == 1) correct_out = input0 - input1;
-            else if(aluop == 2) correct_out = input0 << input1;
-            else if(aluop == 3) correct_out = input0 >> input1;
-            else if(aluop == 4) correct_out = input0 >>> input1;
-            else if(aluop == 5) correct_out = input0 & input1;
-            else if(aluop == 6) correct_out = input0 | input1;
-            else if(aluop == 7) correct_out = input0 ^ input1;
-            else if(aluop == 8) correct_out = signed'(input0) < signed'(input1);
-            else if(aluop == 9) correct_out = input0 < input1;
+            if(aluselect == 0) correct_out = input0 + input1;
+            else if(aluselect == 1) correct_out = input0 - input1;
+            else if(aluselect == 2) correct_out = input0 << input1;
+            else if(aluselect == 3) correct_out = input0 >> input1;
+            else if(aluselect == 4) correct_out = input0 >>> input1;
+            else if(aluselect == 5) correct_out = input0 & input1;
+            else if(aluselect == 6) correct_out = input0 | input1;
+            else if(aluselect == 7) correct_out = input0 ^ input1;
+            else if(aluselect == 8) correct_out = signed'(input0) < signed'(input1);
+            else if(aluselect == 9) correct_out = input0 < input1;
+            else if(aluselect == 10) correct_out = input0 == input1;
+            else if(aluselect == 11) correct_out = signed'(input0) >= signed'(input1);
+            else if(aluselect == 12) correct_out = input0 >= input1;
+            else if(aluselect == 13) correct_out = input1;
             else correct_out = 0;
             correct_is_zero = correct_out == 0;
 
             if(out != correct_out) begin
-                $display("ERROR (time %0t): out = %h instead of %h for aluop %h.", $realtime, out, correct_out, aluop);
+                $display("ERROR (time %0t): out = %h instead of %h for aluselect %h.", $realtime, out, correct_out, aluselect);
             end
             if(is_zero != correct_is_zero) begin
-                $display("ERROR (time %0t): is_zero = %h instead of %h for aluop %h.", $realtime, is_zero, correct_is_zero, aluop);
+                $display("ERROR (time %0t): is_zero = %h instead of %h for aluselect %h.", $realtime, is_zero, correct_is_zero, aluselect);
             end
 
         end

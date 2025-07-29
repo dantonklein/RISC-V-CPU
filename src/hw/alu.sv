@@ -6,7 +6,7 @@ module alu
     input logic [DATA_WIDTH-1:0] input0,
     input logic [DATA_WIDTH-1:0] input1,
 
-    input logic [3:0] aluop,
+    input logic [3:0] aluselect,
 
     output logic [DATA_WIDTH-1:0] out,
     output logic is_zero
@@ -14,7 +14,7 @@ module alu
 always_comb begin
     is_zero = 1'b0;
 
-    case(aluop)
+    case(aluselect)
         //Addition
         4'd0: out = input0 + input1;
         //Subtraction
@@ -35,7 +35,14 @@ always_comb begin
         4'd8: out = signed'(input0) < signed'(input1);
         //Set if less than, unsigned
         4'd9: out = input0 < input1;
-
+        //For BNE
+        4'd10: out = input0 == input1;
+        //For BLT
+        4'd11: out = signed'(input0) >= signed'(input1);
+        //For BLTU
+        4'd12: out = input0 >= input1;
+        //For LUI
+        4'd13: out = input1;
         default: out = 0;
     endcase
 

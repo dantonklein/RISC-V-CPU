@@ -27,7 +27,7 @@ module registerfile
         end
 
         else begin
-            if(write) begin
+            if(write && (reg_wr != 0)) begin
                 registers[reg_wr] <= data_in;
             end
         end

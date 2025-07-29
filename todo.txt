@@ -1,0 +1,7 @@
+1. or gate on the PCSrc Line to account for branches and jumps
+2. Mux on the line feeding the PC counter for accounting for jumps
+3. Mux to bypass ALU for storing addresses to rd for JAL and JALR
+4. two new control lines for jumps, one for rd mux and one for JALR
+5. Sign extension Module for lb, lh, lw, lbu, and lhu to be placed in writeback section
+6. Figure out how sb and sh differ from sw
+7. i need to change the ram to be byte addressable 
