@@ -1,4 +1,4 @@
-//Really simple testbench that make sure that the ram works
+//I need to remake this shit
 module ram_tb #(
 
     parameter int DATA_WIDTH = 32,

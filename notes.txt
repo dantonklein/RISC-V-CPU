@@ -294,3 +294,10 @@ one solution: stall
 other: branch prediction
 dynamic branch prediction: change prediction based on whether the branch was taken or not
 
+data forwarding:
+We can check to see if RegWrite will be active by checking it during the ex and mem stages. if any instruction has rd be x0 you avoid forwarding it.
+
+in the case when a result is available in both the ex/mem register and the mem/wb register you need to forward the ex/mem one since its more recent.
+forwarding muxB(rs2) will go before the sign-extension/read-data2 mux.
+
+For load instructions before a store, you would need forwarding in the mem stage for data from wb.

@@ -48,6 +48,8 @@ module id_ex_register #(
     input logic MemRead_id,
     input logic ALUSrc_id,
     input logic[3:0] ALUOp_id,
+    //JAL, JALR
+    //Type of Load
 
     input logic clk,
     input logic reset,
@@ -68,6 +70,7 @@ module id_ex_register #(
     output logic MemRead_ex,
     output logic ALUSrc_ex,
     output logic[3:0] ALUOp_ex
+
 );
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
