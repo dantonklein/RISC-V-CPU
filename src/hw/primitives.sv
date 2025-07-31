@@ -3,7 +3,7 @@
 
 module mux2x1
 #(
-    parameter int WIDTH = 1
+    parameter int WIDTH = 32
 )
 (
     input logic[WIDTH-1:0] in0,
@@ -13,6 +13,29 @@ module mux2x1
 );
 
     assign data_out = select == 1'b1 ? in1 : in0;
+
+endmodule
+
+module mux3x1
+#(
+    parameter int WIDTH = 32
+)
+(
+    input logic[WIDTH-1:0] in0,
+    input logic[WIDTH-1:0] in1,
+    input logic[WIDTH-1:0] in2,
+    input logic[1:0] select,
+    output logic[WIDTH-1:0] data_out
+);
+
+    always_comb begin
+        case(select)
+            2'd0: data_out = in0;
+            2'd1: data_out = in1;
+            2'd2: data_out = in2:
+            2'd3: data_out = '0;
+        endcase
+    end
 
 endmodule
 
