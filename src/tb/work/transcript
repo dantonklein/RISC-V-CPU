@@ -1,5 +1,35 @@
-# Compile of ram.sv was successful.
-# Compile of ram.sv was successful.
-# Compile of sign_extend.sv failed with 5 errors.
-# Compile of sign_extend.sv was successful.
-# Compile of sign_extend.sv was successful.
+# Compile of alu_forwarding_unit_tb.sv was successful.
+# Compile of data_forwarding_unit.sv was successful.
+# 2 compiles, 0 failed with no errors.
+vsim -gui work.alu_forwarding_unit_tb
+# vsim -gui work.alu_forwarding_unit_tb 
+# Start time: 19:13:05 on Jul 31,2025
+# Loading sv_std.std
+# Loading work.alu_forwarding_unit_tb
+# ** Error: (vsim-3033) Instantiation of 'data_forwarding_unit' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /alu_forwarding_unit_tb File: C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_forwarding_unit_tb.sv Line: 13
+#         Searched libraries:
+#             C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/work/work
+# Error loading design
+# End time: 19:13:05 on Jul 31,2025, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 6
+# Compile of alu_forwarding_unit_tb.sv was successful.
+vsim -gui work.alu_forwarding_unit_tb
+# vsim -gui work.alu_forwarding_unit_tb 
+# Start time: 19:13:37 on Jul 31,2025
+# Loading sv_std.std
+# Loading work.alu_forwarding_unit_tb
+# Loading work.alu_data_forwarding_unit
+# WARNING: No extended dataflow license exists
+run -all
+# mem stage forward_data: 1
+# wb stage forward_data: 2
+# both wb and mem available forward_data: 1
+# edge case 1 forward_data: 0
+# edge case 2 forward_data: 0
+# edge case 3 forward_data: 0
+# edge case 3 forward_data: 0
+# Break key hit
+# Simulation stop requested.
+# End time: 19:14:45 on Jul 31,2025, Elapsed time: 0:01:08
+# Errors: 0, Warnings: 3
