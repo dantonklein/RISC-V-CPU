@@ -11,24 +11,24 @@ cModel Technology
 dC:/Users/klein/Documents/cad/hw1
 valu
 Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z1 !s110 1753730637
+Z1 !s110 1754033079
 !i10b 1
-!s100 7n4F0V93Z9?g5VcWgU9RY0
+!s100 ROL2o;S@=kRD5]Ic=6NQb2
 Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
-IRQJ?d:Z`_WnCRnlBz<VjL2
+I8ZLBR7<R1]I6Z;ZJmP^G?3
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 S1
 Z4 dC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/work
-w1753730620
+w1753769541
 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv
-!i122 61
+!i122 71
 L0 1 52
 Z5 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z6 !s108 1753730637.000000
+Z6 !s108 1754033079.000000
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alu.sv|
 !i113 1
@@ -86,7 +86,7 @@ R7
 R8
 valu_tb
 R0
-R1
+!s110 1753730637
 !i10b 1
 !s100 BfF=[X6i>GIO;W6iWQ:bL0
 R2
@@ -103,15 +103,40 @@ R5
 r1
 !s85 0
 31
-R6
+!s108 1753730637.000000
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb.sv|
 !i113 1
 R7
 R8
+valu_tb2
+R0
+!s110 1754110747
+!i10b 1
+!s100 9SKc6jc7nPBZ^i17ACkZi3
+R2
+IV^2[<2a8afOdP[00E;F<f0
+R3
+S1
+R4
+w1754110740
+8C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb2.sv
+FC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb2.sv
+!i122 87
+L0 3 398
+R5
+r1
+!s85 0
+31
+!s108 1754110746.000000
+!s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb2.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/alu_tb2.sv|
+!i113 1
+R7
+R8
 valucontroller
 R0
-!s110 1753773123
+R1
 !i10b 1
 !s100 D7dTLNc]78oo3j7=;hFV_3
 R2
@@ -122,13 +147,13 @@ R4
 w1753772947
 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alucontroller.sv
 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alucontroller.sv
-!i122 62
+!i122 72
 L0 1 114
 R5
 r1
 !s85 0
 31
-!s108 1753773123.000000
+R6
 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alucontroller.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/alucontroller.sv|
 !i113 1

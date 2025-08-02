@@ -35,9 +35,15 @@ module immgen
     );
 
     always_comb begin
+        //For LUI and AUIPC
         if(inst[4:2] == 3'b101) extended_immediate = {u_type_immediate, 12'd0};
+        //For JAL
         else if(inst[6:0] == 7'b1101111) extended_immediate = {11'd0, u_type_immediate, 1'd0};
-        else if(inst[6:2] == 5'b11000) extended_immediate = extended <<< 1;
+        //For branch instructions
+        else if(inst[6:0] == 5'b1100011) extended_immediate = extended <<< 1;
+        //for SLLI, SRLI, and SRAI
+        else if(inst[14:12] == 3'b001 || inst[14:12] == 3'b101) immediate = {27'd0, extended[4:0]};
+        //for the remaining I type instructions
         else extended_immediate = extended;
     end
 endmodule
