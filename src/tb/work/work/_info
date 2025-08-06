@@ -159,26 +159,51 @@ R6
 !i113 1
 R7
 R8
-vdelay
+vcounter_tb
 R0
-Z16 !s110 1751685593
+!s110 1754426744
 !i10b 1
-!s100 TNm=1Qb_6azLO?:4e:gfi1
+!s100 ;Si8m8:dhBNEJVQW4Uf4S3
 R2
-II]OcZDkU92fQE92[SmfeK3
+Ij:h`9J`DbIa>Ad6=_D5kI3
 R3
 S1
 R4
-Z17 w1738110889
-Z18 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
-Z19 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
-!i122 3
-L0 41 28
+w1754426741
+8C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/counter_tb.sv
+FC:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/counter_tb.sv
+!i122 94
+L0 1 68
 R5
 r1
 !s85 0
 31
-Z20 !s108 1751685593.000000
+!s108 1754426744.000000
+!s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/counter_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/tb/hw/counter_tb.sv|
+!i113 1
+R7
+R8
+vdelay
+R0
+Z16 !s110 1754358438
+!i10b 1
+!s100 _dUT4dT?cWa6=;]SC6oBj2
+R2
+IVz4Qb0CaR`=8QNhBJFUnT2
+R3
+S1
+R4
+Z17 w1754358433
+Z18 8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
+Z19 FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv
+!i122 90
+L0 64 28
+R5
+r1
+!s85 0
+31
+Z20 !s108 1754358438.000000
 Z21 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
 Z22 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
 !i113 1
@@ -288,17 +313,67 @@ vmux2x1
 R0
 R16
 !i10b 1
-!s100 1ZXaEa6]1m=EfDl;5?K2o0
+!s100 SblKK?E<QdXPA1[j]?81j0
 R2
-IjPLD7:BG@c3iCb_1n`1>60
+IWY9n@E<J6<@oj<?Xcm=ND2
 R3
 S1
 R4
 R17
 R18
 R19
-!i122 3
+!i122 90
 L0 4 14
+R5
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 1
+R7
+R8
+vmux3x1
+R0
+R16
+!i10b 1
+!s100 fTh=I>?6R=DF[DEe>f?A_2
+R2
+I?c^Kj4>3FUkBUj11`?S3A1
+R3
+S1
+R4
+R17
+R18
+R19
+!i122 90
+L0 19 22
+R5
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 1
+R7
+R8
+vn_bit_counter
+R0
+R16
+!i10b 1
+!s100 4H>`m?fda:D`SfY]zQla30
+R2
+ICRCT7C^;?z8G4l??>_ClB1
+R3
+S1
+R4
+R17
+R18
+R19
+!i122 90
+L0 93 19
 R5
 r1
 !s85 0
@@ -363,17 +438,17 @@ vregister
 R0
 R16
 !i10b 1
-!s100 8K4aiL9MaicYRIX9E:G@51
+!s100 8bXe<elAN>GZ=F?>NfP:S2
 R2
-I8n8e07<jB_]6kVeY9iZn_2
+I61z>ZZZL;I8mZ^i`E3PT`1
 R3
 S1
 R4
 R17
 R18
 R19
-!i122 3
-L0 19 21
+!i122 90
+L0 42 21
 R5
 r1
 !s85 0

@@ -261,7 +261,7 @@ module alu_tb2 #(
         update_inputs(3'd2,7'b0000000,3'b000,$urandom,$urandom,ALUOp,Funct7,Funct3,input0,input1);
         
         @(posedge clk);
-        correct_out = input1;
+        correct_out = input1 + 4;
         update_is_zero(correct_out, correct_is_zero);
         check_output(out, correct_out, is_zero, correct_is_zero);
         
@@ -273,125 +273,125 @@ module alu_tb2 #(
         update_is_zero(correct_out, correct_is_zero);
         check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BEQ for equal inputs");
-        update_inputs(3'd4,7'b0000000,3'b000,32'h0f0f0f0f,32'h0f0f0f0f,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BEQ for equal inputs");
+        // update_inputs(3'd4,7'b0000000,3'b000,32'h0f0f0f0f,32'h0f0f0f0f,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 - input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 - input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BEQ for not equal inputs");
-        update_inputs(3'd4,7'b0000000,3'b000,32'h0f0f0f0f,32'h0f0f0f0E,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BEQ for not equal inputs");
+        // update_inputs(3'd4,7'b0000000,3'b000,32'h0f0f0f0f,32'h0f0f0f0E,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 - input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 - input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BNE for not equal inputs");
-        update_inputs(3'd4,7'b0000000,3'b001,32'h0f0f0f0f,32'h0f0f0f0E,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BNE for not equal inputs");
+        // update_inputs(3'd4,7'b0000000,3'b001,32'h0f0f0f0f,32'h0f0f0f0E,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 == input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 == input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BNE for equal inputs");
-        update_inputs(3'd4,7'b0000000,3'b001,32'h0f0f0f0f,32'h0f0f0f0f,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BNE for equal inputs");
+        // update_inputs(3'd4,7'b0000000,3'b001,32'h0f0f0f0f,32'h0f0f0f0f,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 == input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 == input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BLT for less than");
-        update_inputs(3'd4,7'b0000000,3'b100,-32'd10,32'd10,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BLT for less than");
+        // update_inputs(3'd4,7'b0000000,3'b100,-32'd10,32'd10,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = signed'(input0) >= signed'(input1);
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = signed'(input0) >= signed'(input1);
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BLT for greater than");
-        update_inputs(3'd4,7'b0000000,3'b100,32'd10,-32'd10,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BLT for greater than");
+        // update_inputs(3'd4,7'b0000000,3'b100,32'd10,-32'd10,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = signed'(input0) >= signed'(input1);
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = signed'(input0) >= signed'(input1);
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BGE for greater than");
-        update_inputs(3'd4,7'b0000000,3'b101,32'd10,-32'd10,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BGE for greater than");
+        // update_inputs(3'd4,7'b0000000,3'b101,32'd10,-32'd10,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = signed'(input0) < signed'(input1);
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = signed'(input0) < signed'(input1);
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BGE for less than");
-        update_inputs(3'd4,7'b0000000,3'b101,-32'd10,32'd10,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BGE for less than");
+        // update_inputs(3'd4,7'b0000000,3'b101,-32'd10,32'd10,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = signed'(input0) < signed'(input1);
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = signed'(input0) < signed'(input1);
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BGE for equal to");
-        update_inputs(3'd4,7'b0000000,3'b101,32'd10,32'd10,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BGE for equal to");
+        // update_inputs(3'd4,7'b0000000,3'b101,32'd10,32'd10,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = signed'(input0) < signed'(input1);
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = signed'(input0) < signed'(input1);
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BLTU for less than");
-        update_inputs(3'd4,7'b0000000,3'b110,32'd10,32'd20,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BLTU for less than");
+        // update_inputs(3'd4,7'b0000000,3'b110,32'd10,32'd20,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 >= input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 >= input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BLTU for greater than");
-        update_inputs(3'd4,7'b0000000,3'b110,32'd20,32'd10,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BLTU for greater than");
+        // update_inputs(3'd4,7'b0000000,3'b110,32'd20,32'd10,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 >= input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 >= input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BLTU for equal to");
-        update_inputs(3'd4,7'b0000000,3'b110,32'd20,32'd20,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BLTU for equal to");
+        // update_inputs(3'd4,7'b0000000,3'b110,32'd20,32'd20,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 >= input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 >= input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BGEU for greater than");
-        update_inputs(3'd4,7'b0000000,3'b111,32'd20,32'd10,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BGEU for greater than");
+        // update_inputs(3'd4,7'b0000000,3'b111,32'd20,32'd10,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 < input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 < input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BGEU for less than");
-        update_inputs(3'd4,7'b0000000,3'b111,32'd10,32'd20,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BGEU for less than");
+        // update_inputs(3'd4,7'b0000000,3'b111,32'd10,32'd20,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 < input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 < input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
-        $display("BGEU for equal to than");
-        update_inputs(3'd4,7'b0000000,3'b111,32'd20,32'd20,ALUOp,Funct7,Funct3,input0,input1);
+        // $display("BGEU for equal to than");
+        // update_inputs(3'd4,7'b0000000,3'b111,32'd20,32'd20,ALUOp,Funct7,Funct3,input0,input1);
         
-        @(posedge clk);
-        correct_out = input0 < input1;
-        update_is_zero(correct_out, correct_is_zero);
-        check_output(out, correct_out, is_zero, correct_is_zero);
+        // @(posedge clk);
+        // correct_out = input0 < input1;
+        // update_is_zero(correct_out, correct_is_zero);
+        // check_output(out, correct_out, is_zero, correct_is_zero);
         
         $display("Tests Finished.");
         disable generate_clk;

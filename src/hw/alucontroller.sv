@@ -22,10 +22,10 @@ module alucontroller
     localparam logic [3:0] Xor = 4'd7;
     localparam logic [3:0] SLT_S = 4'd8;
     localparam logic [3:0] SLT_U = 4'd9;
-    localparam logic [3:0] Is_Equal = 4'd10;
-    localparam logic [3:0] SGTE_S = 4'd11;
-    localparam logic [3:0] SGTE_U = 4'd12;
-    localparam logic [3:0] In1_To_Out = 4'd13;
+    // localparam logic [3:0] Is_Equal = 4'd10;
+    // localparam logic [3:0] SGTE_S = 4'd11;
+    // localparam logic [3:0] SGTE_U = 4'd12;
+    localparam logic [3:0] In1_To_Out = 4'd10;
     localparam logic [3:0] Debug = 4'd15;
 
     always_comb begin
@@ -92,23 +92,23 @@ module alucontroller
             //LB, LH, LW, LBU, LHU, SB, SH, SW
             aluselect = Add;
         end
-        else if(ALUOp == branches) begin
-            case(Funct3)
-                //BEQ
-                3'b000: aluselect = Sub;
-                //BNE
-                3'b001: aluselect = Is_Equal;
-                //BLT
-                3'b100: aluselect = SGTE_S;
-                //BGE
-                3'b101: aluselect = SLT_S;
-                //BLTU
-                3'b110: aluselect = SGTE_U;
-                //BGEU
-                3'b111: aluselect = SLT_U;
-                default: aluselect = Debug;
-            endcase
-        end
+        // else if(ALUOp == branches) begin
+        //     case(Funct3)
+        //         //BEQ
+        //         3'b000: aluselect = Sub;
+        //         //BNE
+        //         3'b001: aluselect = Is_Equal;
+        //         //BLT
+        //         3'b100: aluselect = SGTE_S;
+        //         //BGE
+        //         3'b101: aluselect = SLT_S;
+        //         //BLTU
+        //         3'b110: aluselect = SGTE_U;
+        //         //BGEU
+        //         3'b111: aluselect = SLT_U;
+        //         default: aluselect = Debug;
+        //     endcase
+        // end
     end
 
 endmodule

@@ -34,3 +34,8 @@ module memory_data_forwarding_unit (
     end
 
 endmodule
+
+module branch_alu_forwarding_unit (
+
+)
+endmodule;

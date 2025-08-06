@@ -32,7 +32,7 @@ module mux3x1
         case(select)
             2'd0: data_out = in0;
             2'd1: data_out = in1;
-            2'd2: data_out = in2:
+            2'd2: data_out = in2;
             2'd3: data_out = '0;
         endcase
     end
@@ -88,4 +88,24 @@ module delay
         );
     end
 
+endmodule
+
+module n_bit_counter #(
+    parameter int width = 2
+)(
+    input logic clk,
+    input logic reset,
+    input logic count_up, count_down,
+    output logic[width-1:0] count
+);
+    always_ff @(posedge clk or posedge reset) begin
+        if(reset) count <= 1;
+        else begin
+            case ({count_up,count_down})
+                2'b01: if(count != 0) count <= count - 1;
+                2'b10: if(count != (2 ** width - 1)) count <= count + 1;
+                default: count <= count;
+            endcase
+        end
+    end
 endmodule

@@ -301,3 +301,19 @@ in the case when a result is available in both the ex/mem register and the mem/w
 forwarding muxB(rs2) will go before the sign-extension/read-data2 mux.
 
 For load instructions before a store, you would need forwarding in the mem stage for data from wb.
+data forwarding does not work when an instruction tries to read a register following a load that writes to it.
+this is because loads take 1 cycle.
+if ( ex_memread and ex.regrd == id.regrs1/2) stall
+in the case of this stall ID and IF would be stalled.
+This can be achieved by preventing the PC register and the IF/ID register from changing
+
+"bubbles" can be inserted in the pipeline stage by changing all control values to zero
+we can set the ID/EX pipeline register control signals to zero
+this can be achieved with the hazard detection unit
+
+options for dealing with control hazards
+assume branch not taken: if it is taken, the instructions that are being fetched must be discarded, execution continues at branch target
+to discard instructions we need to change the control values to zero like before.
+we must also change the 3 instructions in if, id, and ex stages. 
+
+for moving branch alu to ID stage, we need a data forwarding unit for it and a possible stall if the branch requires data from the instruction prior.
