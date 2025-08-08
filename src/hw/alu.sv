@@ -9,7 +9,7 @@ module alu
     input logic [3:0] aluselect,
 
     //output logic is_zero,
-    output logic [DATA_WIDTH-1:0] out;
+    output logic [DATA_WIDTH-1:0] out
 );
 always_comb begin
     is_zero = 1'b0;
