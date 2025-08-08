@@ -1,5 +1,7 @@
 module hazard_unit(
-    input logic ID_AttemptBranch
+    input logic ID_AttemptBranch,
+    input logic ID_BranchTaken,
+    input logic ID_AssumeBranchTaken,
     input logic EX_RegWrite,
     input logic EX_MemRead,
     input logic[4:0] EX_Rd,
@@ -20,6 +22,9 @@ always_comb begin
     else stall = 2'd0;
 
 end
-//Flushes: what stall does but also gets rid of the instructions in IF stage
-
+//Flushes: what stall does but also gets rid of the instruction in IF/ID pipeline
+always_comb begin
+    if(ID_BranchTaken != ID_AssumeBranchTaken) flush = 1;
+    else flush = 0;
+end
 endmodule
