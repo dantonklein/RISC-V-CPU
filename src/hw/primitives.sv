@@ -90,20 +90,21 @@ module delay
 
 endmodule
 
-module n_bit_counter #(
+//this is not being used
+module n_bit_saturation_counter #(
     parameter int width = 2
 )(
     input logic clk,
-    input logic reset,
+    input logic rst,
     input logic count_up, count_down,
     output logic[width-1:0] count
 );
-    always_ff @(posedge clk or posedge reset) begin
-        if(reset) count <= 1;
+    always_ff @(posedge clk or posedge rst) begin
+        if(rst) count <= 1'b1;
         else begin
             case ({count_up,count_down})
-                2'b01: if(count != 0) count <= count - 1;
-                2'b10: if(count != (2 ** width - 1)) count <= count + 1;
+                2'b01: if(count != 0) count <= count - 1'b1;
+                2'b10: if(count != (2 ** width - 1)) count <= count + 1'b1;
                 default: count <= count;
             endcase
         end

@@ -1,7 +1,7 @@
 module hazard_unit(
     input logic ID_AttemptBranch,
     input logic ID_BranchTaken,
-    input logic ID_AssumeBranchTaken,
+    input logic ID_PredictBranchTaken,
     input logic EX_RegWrite,
     input logic EX_MemRead,
     input logic[4:0] EX_Rd,
@@ -14,17 +14,17 @@ module hazard_unit(
 //You also gotta set all control signals to 0 into the ID/EX pipeline registers
 always_comb begin
     //Hazard 1: load instruction saving to a register used by a branch the next cycle
-    if(EX_MemRead && ID_Branch && (EX_Rd != 5'b0) && (EX_Rd == ID_Rs1 || EX_Rd == ID_Rs2)) stall = 2'd2;
+    if(EX_MemRead && ID_AttemptBranch && (EX_Rd != 5'b0) && (EX_Rd == ID_Rs1 || EX_Rd == ID_Rs2)) stall = 2'd2;
     //Hazard 2: instruction tries to read a register following a load instruction that writes the same register
     else if(EX_MemRead && (EX_Rd != 5'b0) && (EX_Rd == ID_Rs1 || EX_Rd == ID_Rs2)) stall = 2'd1;
     //Hazard 3: alu instruction in EX immediately preceding a branch produces an operand for the branch
-    else if(ID_Branch && EX_RegWrite && (EX_Rd != 5'b0) && (EX_Rd == ID_Rs1 || EX_Rd == ID_Rs2)) stall = 2'd1;
+    else if(ID_AttemptBranch && EX_RegWrite && (EX_Rd != 5'b0) && (EX_Rd == ID_Rs1 || EX_Rd == ID_Rs2)) stall = 2'd1;
     else stall = 2'd0;
 
 end
 //Flushes: what stall does but also gets rid of the instruction in IF/ID pipeline
 always_comb begin
-    if(ID_BranchTaken != ID_AssumeBranchTaken) flush = 1;
+    if(ID_BranchTaken != ID_PredictBranchTaken) flush = 1;
     else flush = 0;
 end
 endmodule

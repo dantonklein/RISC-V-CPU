@@ -159,6 +159,31 @@ R6
 !i113 1
 R7
 R8
+vbranch_prediction
+R0
+!s110 1754785429
+!i10b 1
+!s100 HKI;fX9`MegSB8XYAk;WH0
+R2
+IIG:9WnK?87>zjXHAk=^UP3
+R3
+S1
+R4
+w1754785426
+8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/branch_prediction.sv
+FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/branch_prediction.sv
+!i122 96
+L0 1 45
+R5
+r1
+!s85 0
+31
+!s108 1754785429.000000
+!s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/branch_prediction.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/branch_prediction.sv|
+!i113 1
+R7
+R8
 vcounter_tb
 R0
 !s110 1754426744
@@ -206,6 +231,31 @@ r1
 Z20 !s108 1754358438.000000
 Z21 !s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
 Z22 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/primitives.sv|
+!i113 1
+R7
+R8
+vhazard_unit
+R0
+!s110 1754780592
+!i10b 1
+!s100 SKi4c^_0GmD0mV=Io4MdE0
+R2
+IV_ZTCDGKb1R7M<e[2L^fe0
+R3
+S1
+R4
+w1754780589
+8C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/hazard_unit.sv
+FC:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/hazard_unit.sv
+!i122 95
+L0 1 30
+R5
+r1
+!s85 0
+31
+!s108 1754780592.000000
+!s107 C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/hazard_unit.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/klein/Documents/projects/RISC-V-CPU/src/hw/hazard_unit.sv|
 !i113 1
 R7
 R8
