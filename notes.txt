@@ -317,3 +317,41 @@ to discard instructions we need to change the control values to zero like before
 we must also change the 3 instructions in if, id, and ex stages. 
 
 for moving branch alu to ID stage, we need a data forwarding unit for it and a possible stall if the branch requires data from the instruction prior.
+
+exception: any unexpected change in control flow
+interrupt: externally caused
+the basic action that a processor must perform when an exception occurs is to save the addy of the unfortunate
+instruction in the supervisor exception program counter (SEPC) and transfer control to the os at some specific addy
+
+two main methods to communicate the reason for an exception:
+risc v uses a supervisor exception cause register (SCAUSE) which holds a field that indicates the reason for the exception
+
+second method is to use vectored interrupts: the address to which control is transferred is determined by the cause of the exception
+possibly added to a base register that points to a memory range for vectored interrupts
+
+exceptions are a form of control hazard
+when an exception occurs you must flush the instructions that follow the add instruction and begin fetching instructions from the new address
+to flush instructions in the ID stage, we use the multiplexor in the ID stage that zeroes control signals for stalls (OR GATE WITH STALL)
+to flush instructions in the EX stage, we make a new mux and use it to zero the control signals
+must add another input to the PC MUX
+
+if an instruction in the EX stage has an exception, the EX.Flush signal can be used to prevent the writing of the destination register in the write back stage (or any memory access stuff)
+if its an exception that requires the instruction be completed, it can be restarted after the instruction is handled (lets say the exception is caused by an interrupt)
+
+save the address of the offending instruction in the supervisor exception program counter
+earliest instruction is interrupted first when multiple interrupts occur in the same clock cycle
+
+Hardware needs to stop offending instruction in midstream, let all instructions complete, flush all following instructions, set a register to show the cause of the exception (SCAUSE), 
+save the address of the offending instruction (SEPC), then jump to a prearranged address
+
+The OS needs to look at the cause and act appropriately.
+Lets say the exception is caused by an I/O device or os service call, the os would save the state of the program (save register data to memory lets say), do the required task, then restore the program and resume
+
+
+
+1. exception/interrupt handling (ecall, ebreak, sret. wfi)
+2. multiplication/division extension
+3. floating point extension
+4. atomic extension
+5. memory translation stuff (fence.i, fence, sfence.vma)
+6. Implement priveledge and csr stuff (csrrw, csrrs, csrrc, csrrwi, csrrsi, csrrci)

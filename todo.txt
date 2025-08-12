@@ -6,3 +6,4 @@
 6. move branch hardware to ID stage this involves moving the address adder and jump stuff to the id stage.
 need to add mux to change source of adder for address for jumps.
 7. test hazard detection and branch prediction hardware.
+8. create stalling unit and flush unit

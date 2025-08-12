@@ -41,9 +41,13 @@ always_comb begin
         // 4'd11: out = signed'(input0) >= signed'(input1);
         // //For BLTU
         // 4'd12: out = input0 >= input1;
-         //For LUI
-         4'd10: out = input1 + 4;
-         default: out = 0;
+        //For LUI
+        4'd10: out = input1;
+        //For AUIPC
+        4'd11: out = input0;
+        //For JAL and JALR
+        4'd12: out = input0 + 4;
+        default: out = 0;
     endcase
 
     //if (out == 0) is_zero = 1'b1;

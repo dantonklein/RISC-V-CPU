@@ -27,7 +27,7 @@ module memory_data_forwarding_unit (
     //output = 0 (data comes from pipeline register)
     //output = 1 (data comes from write back stage)
 
-    //fowarding unit for lw -> sw
+    //fowarding unit for sw 1 cycle after lw
     always_comb begin
         if(WB_RegWrite && (WB_Rd != 5'd0) && (WB_Rd == MEM_Rs2)) forward_data = 1'b1;
         else forward_data = 1'b0;
