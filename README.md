@@ -1,4 +1,4 @@
-# RISC-V-CPU
+# RISC-V CPU
 RISC-V CPU design with a 5 stage pipeline, data forwarding, hazard detection and branch prediction. This project was done to improve my understanding of the RISC-V architecture and general computer architecture principles. 
 
 Current Design of the CPU:
