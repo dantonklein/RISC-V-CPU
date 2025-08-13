@@ -1,171 +1,218 @@
 //Danton Klein
 //This file contains the registers used to facilitate the 5 stage pipeline.
 
-module if_id_register #(
+module IF_ID_Register #(
     parameter int WIDTH = 32
 )
 (
-    input logic[WIDTH-1:0] pc_out,
-    input logic[31:0] instruction_memory_out,
+    input logic[WIDTH-1:0] IF_Pc,
+    input logic[31:0] IF_Instruction,
 
     input logic clk,
     input logic reset,
-    input logic enable,
+    input logic stall,
+    input logic flush,
 
-    output logic[WIDTH-1:0] pc_id,
-    output logic[31:0] instruction_id
+    output logic[WIDTH-1:0] ID_Pc,
+    output logic[31:0] ID_Instruction
 );
 
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
-            pc_id <= '0;
-            instruction_id <= '0;
+            ID_Pc <= '0;
+            ID_Instruction <= '0;
         end
-        else if (enable) begin
-            pc_id <= pc_out;
-            instruction_id <= instruction_memory_out;
+        else if (flush) begin
+            ID_Pc <= IF_Pc;
+            ID_Instruction <= '0;
+        end
+        else if (!stall) begin
+            ID_Pc <= IF_Pc;
+            ID_Instruction <= IF_Instruction;
         end
     end
 
 endmodule
 
-module id_ex_register #(
+module ID_EX_Register #(
     parameter int WIDTH = 32
 )
 (
-    input logic[WIDTH-1:0] pc_id,
-    input logic[WIDTH-1:0] rs1_id,
-    input logic[WIDTH-1:0] rs2_id,
-    input logic[WIDTH-1:0] imm_gen_out,
-    input logic[6:0] funct7_id,
-    input logic[2:0] funct3_id,
-    input logic[4:0] rd_id,
+    input logic[WIDTH-1:0] ID_Pc,
+    input logic[WIDTH-1:0] ID_RegisterData1,
+    input logic[WIDTH-1:0] ID_RegisterData2,
+    input logic[WIDTH-1:0] ID_ImmediateGen,
+    input logic[6:0] ID_Funct7,
+    input logic[2:0] ID_Funct3,
+    input logic[4:0] ID_Rs1,
+    input logic[4:0] ID_Rs2,
+    input logic[4:0] ID_Rd,
 
-    input logic RegWrite_id,
-    input logic MemtoReg_id,
-    input logic AttemptBranch_id,
-    input logic MemWrite_id,
-    input logic MemRead_id,
-    input logic ALUSrc_id,
-    input logic[3:0] ALUOp_id,
-    //JAL, JALR
-    //Type of Load
+    input logic ID_RegWrite,
+    input logic ID_MemToReg,
+    input logic ID_MemWrite,
+    input logic ID_MemRead,
+    input logic ID_Immediate,
+    input logic[2:0] ID_ALUOp,
+    input logic ID_Jump,
+    input logic ID_Auipc,
 
     input logic clk,
     input logic reset,
-    input logic enable,
+    input logic flush,
 
-    output logic[WIDTH-1:0] pc_ex,
-    output logic[WIDTH-1:0] rs1_ex,
-    output logic[WIDTH-1:0] rs2_ex,
-    output logic[WIDTH-1:0] imm_gen_ex,
-    output logic[6:0] funct7_ex,
-    output logic[2:0] funct3_ex,
-    output logic[4:0] rd_ex,
+    output logic[WIDTH-1:0] EX_Pc,
+    output logic[WIDTH-1:0] EX_RegisterData1,
+    output logic[WIDTH-1:0] EX_RegisterData2,
+    output logic[WIDTH-1:0] EX_ImmediateGen,
+    output logic[6:0] EX_Funct7,
+    output logic[2:0] EX_Funct3,
+    output logic[4:0] EX_Rs1,
+    output logic[4:0] EX_Rs2,
+    output logic[4:0] EX_Rd,
 
-    output logic RegWrite_ex,
-    output logic MemtoReg_ex,
-    output logic AttemptBranch_ex,
-    output logic MemWrite_ex,
-    output logic MemRead_ex,
-    output logic ALUSrc_ex,
-    output logic[3:0] ALUOp_ex
+    output logic EX_RegWrite,
+    output logic EX_MemToReg,
+    output logic EX_MemWrite,
+    output logic EX_MemRead,
+    output logic EX_Immediate,
+    output logic[2:0] EX_ALUOp,
+    output logic EX_Jump,
+    output logic EX_Auipc
 
 );
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
-            pc_ex <= '0;
-            rs1_ex <= '0;
-            rs2_ex <= '0;
-            imm_gen_ex <= '0;
-            funct7_ex <= '0;
-            funct3_ex <= '0;
-            rd_ex <= '0;
-            RegWrite_ex <= '0;
-            MemtoReg_ex <= '0;
-            AttemptBranch_ex <= '0;
-            MemWrite_ex <= '0;
-            MemRead_ex <= '0;
-            ALUSrc_ex <= '0;
-            ALUOp_ex <= '0;
+            EX_Pc <= '0;
+            EX_RegisterData1 <= '0;
+            EX_RegisterData2 <= '0;
+            EX_ImmediateGen <= '0;
+            EX_Funct7 <= '0;
+            EX_Funct3 <= '0;
+            EX_Rs1 <= '0;
+            EX_Rs2 <= '0;
+            EX_Rd <= '0;
+
+            EX_RegWrite <= '0;
+            EX_MemToReg <= '0;
+            EX_MemWrite <= '0;
+            EX_MemRead <= '0;
+            EX_Immediate <= '0;
+            EX_ALUOp <= '0;
+            EX_Jump <= '0;
+            EX_Auipc <= '0;
         end
-        else if (enable) begin
-            pc_ex <= pc_id;
-            rs1_ex <= rs1_id;
-            rs2_ex <= rs2_id;
-            imm_gen_ex <= imm_gen_out;
-            funct7_ex <= funct7_id;
-            funct3_ex <= funct3_id;
-            rd_ex <= rd_id;
-            RegWrite_ex <= RegWrite_id;
-            MemtoReg_ex <= MemtoReg_id;
-            AttemptBranch_ex <= AttemptBranch_id;
-            MemWrite_ex <= MemWrite_id;
-            MemRead_ex <= MemRead_id;
-            ALUSrc_ex <= ALUSrc_id;
-            ALUOp_ex <= ALUOp_id;
+        else if(flush) begin
+            EX_Pc <= '0;
+            EX_RegisterData1 <= '0;
+            EX_RegisterData2 <= '0;
+            EX_ImmediateGen <= '0;
+            EX_Funct7 <= '0;
+            EX_Funct3 <= '0;
+            EX_Rs1 <= '0;
+            EX_Rs2 <= '0;
+            EX_Rd <= '0;
+
+            EX_RegWrite <= '0;
+            EX_MemToReg <= '0;
+            EX_MemWrite <= '0;
+            EX_MemRead <= '0;
+            EX_Immediate <= '0;
+            EX_ALUOp <= '0;
+            EX_Jump <= '0;
+            EX_Auipc <= '0;
+        end
+        else begin
+            EX_Pc <= ID_Pc;
+            EX_RegisterData1 <= ID_RegisterData1;
+            EX_RegisterData2 <= ID_RegisterData2;
+            EX_ImmediateGen <= ID_ImmediateGen;
+            EX_Funct7 <= ID_Funct7;
+            EX_Funct3 <= ID_Funct3;
+            EX_Rs1 <= ID_Rs1;
+            EX_Rs2 <= ID_Rs2;
+            EX_Rd <= ID_Rd;
+
+            EX_RegWrite <= ID_RegWrite;
+            EX_MemToReg <= ID_MemToReg;
+            EX_MemWrite <= ID_MemWrite;
+            EX_MemRead <= ID_MemRead;
+            EX_Immediate <= ID_Immediate;
+            EX_ALUOp <= ID_ALUOp;
+            EX_Jump <= ID_Jump;
+            EX_Auipc <= ID_Auipc;
         end
     end
 endmodule
 
-module ex_mem_register #(
+module EX_MEM_Register #(
     parameter int WIDTH = 32
 )
 (
-    input logic[WIDTH-1:0] pc_adder_out,
-    input logic[WIDTH-1:0] alu_out,
-    input logic[WIDTH-1:0] rs2_ex,
-    input logic[4:0] rd_ex,
+    input logic[WIDTH-1:0] EX_Alu,
+    input logic[WIDTH-1:0] EX_RegisterData2,
+    input logic[4-1:0] EX_Rs2,
+    input logic[2:0] EX_Funct3,
+    input logic[4:0] EX_Rd,
 
-    input logic RegWrite_ex,
-    input logic MemtoReg_ex,
-    input logic AttemptBranch_ex,
-    input logic MemWrite_ex,
-    input logic MemRead_ex,
-    input logic alu_zero,
+    input logic EX_RegWrite,
+    input logic EX_MemToReg,
+    input logic EX_MemWrite,
+    input logic EX_MemRead,
 
     input logic clk,
     input logic reset,
-    input logic enable,
+    input logic flush,
 
-    output logic[WIDTH-1:0] pc_adder_mem,
-    output logic[WIDTH-1:0] alu_mem,
-    output logic[WIDTH-1:0] rs2_mem,
-    output logic[4:0] rd_mem,
+    output logic[WIDTH-1:0] MEM_Alu,
+    output logic[WIDTH-1:0] MEM_RegisterData2,
+    output logic[4-1:0] MEM_Rs2,
+    output logic[2:0] MEM_Funct3,
+    output logic[4:0] MEM_Rd,
 
-    output logic RegWrite_mem,
-    output logic MemtoReg_mem,
-    output logic AttemptBranch_mem,
-    output logic MemWrite_mem,
-    output logic MemRead_mem,
-    output logic alu_zero_mem
+    output logic MEM_RegWrite,
+    output logic MEM_MemToReg,
+    output logic MEM_MemWrite,
+    output logic MEM_MemRead
 
 );
 
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
-            pc_adder_mem <= '0;
-            alu_mem <= '0;
-            rs2_mem <= '0;
-            rd_mem <= '0;
-            RegWrite_mem <= '0;
-            MemtoReg_mem <= '0;
-            AttemptBranch_mem <= '0;
-            MemWrite_mem <= '0;
-            MemRead_mem <= '0;
-            alu_zero_mem <= '0;
+            MEM_Alu <= '0;
+            MEM_RegisterData2 <= '0;
+            MEM_Rs2 <= '0;
+            MEM_Funct3 <= '0;
+            MEM_Rd <= '0;
+
+            MEM_RegWrite <= '0;
+            MEM_MemToReg <= '0;
+            MEM_MemWrite <= '0;
+            MEM_MemRead <= '0;
         end
-        else if(enable) begin
-            pc_adder_mem <= pc_adder_out;
-            alu_mem <= alu_out;
-            rs2_mem <= rs2_ex;
-            rd_mem <= rd_ex;
-            RegWrite_mem <= RegWrite_ex;
-            MemtoReg_mem <= MemtoReg_ex;
-            AttemptBranch_mem <= AttemptBranch_ex;
-            MemWrite_mem <= MemWrite_ex;
-            MemRead_mem <= MemRead_ex;
-            alu_zero_mem <= alu_zero;
+        else if(flush) begin
+            MEM_Alu <= '0;
+            MEM_RegisterData2 <= '0;
+            MEM_Rs2 <= '0;
+            MEM_Funct3 <= '0;
+            MEM_Rd <= '0;
+
+            MEM_RegWrite <= '0;
+            MEM_MemToReg <= '0;
+            MEM_MemWrite <= '0;
+            MEM_MemRead <= '0;
+        end
+        else begin
+            MEM_Alu <= EX_Alu;
+            MEM_RegisterData2 <= EX_RegisterData2;
+            MEM_Rs2 <= EX_Rs2;
+            MEM_Funct3 <= EX_Funct3;
+            MEM_Rd <= EX_Rd;
+
+            MEM_RegWrite <= EX_RegWrite;
+            MEM_MemToReg <= EX_MemToReg;
+            MEM_MemWrite <= EX_MemWrite;
+            MEM_MemRead <= EX_MemRead;
         end
     end
 endmodule
@@ -174,38 +221,52 @@ module mem_wb_register #(
     parameter int WIDTH = 32
 )
 (
-    input logic[WIDTH-1:0] data_mem_read_out,
-    input logic[WIDTH-1:0] alu_mem,
-    input logic[4:0] rd_mem,
+    input logic[WIDTH-1:0] MEM_Data,
+    input logic[WIDTH-1:0] MEM_Alu,
 
-    input logic RegWrite_mem,
-    input logic MemtoReg_mem,
+    input logic[2:0] MEM_Funct3,
+    input logic[4:0] MEM_Rd,
+
+    input logic MEM_RegWrite,
+    input logic MEM_MemToReg,
 
     input logic clk,
     input logic reset,
-    input logic enable,
+    input logic flush,
 
-    output logic[WIDTH-1:0] data_mem_read_out_wb,
-    output logic[WIDTH-1:0] alu_wb,
-    output logic[4:0] rd_wb,
+    output logic[WIDTH-1:0] WB_Data,
+    output logic[WIDTH-1:0] WB_Alu,
 
-    output logic RegWrite_wb,
-    output logic MemtoReg_wb
+    output logic[4:0] WB_Funct3,
+    output logic[4:0] WB_Rd,
+
+    output logic WB_RegWrite,
+    output logic WB_MemToReg
 );
 always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
-            data_mem_read_out_wb <= '0;
-            alu_wb <= '0;
-            rd_wb <= '0;
-            RegWrite_wb <= '0;
-            MemtoReg_wb <= '0;
+            WB_Data <= '0;
+            WB_Alu <= '0;
+            WB_Funct3 <= '0;
+            WB_Rd <= '0;
+            WB_RegWrite <= '0;
+            WB_MemToReg <= '0;
         end
-        else if(enable) begin
-            data_mem_read_out_wb <= data_mem_read_out;
-            alu_wb <= alu_mem;
-            rd_wb <= rd_mem;
-            RegWrite_wb <= RegWrite_mem;
-            MemtoReg_wb <= MemtoReg_mem;
+        else if(flush) begin
+            WB_Data <= '0;
+            WB_Alu <= '0;
+            WB_Funct3 <= '0;
+            WB_Rd <= '0;
+            WB_RegWrite <= '0;
+            WB_MemToReg <= '0;
+        end
+        else begin
+            WB_Data <= MEM_Data;
+            WB_Alu <= MEM_Alu;
+            WB_Funct3 <= MEM_Funct3;
+            WB_Rd <= MEM_Rd;
+            WB_RegWrite <= MEM_RegWrite;
+            WB_MemToReg <= MEM_MemToReg;
         end
     end
 endmodule

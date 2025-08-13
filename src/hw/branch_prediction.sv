@@ -18,7 +18,7 @@ module branch_prediction #(
 
     localparam int table_size = 2 ** table_width;
 
-    logic [table_width-1:0] bht [table_size-1:0];
+    logic [1:0] bht [table_size-1:0];
 
     always_ff @(posedge clk or posedge rst) begin
         if(rst) begin

@@ -1,9 +1,5 @@
-1. or gate on the PCSrc Line to account for branches and jumps
-2. Mux on the line feeding the PC counter for accounting for jumps
-3. Mux to bypass ALU for storing addresses to rd for JAL and JALR
-4. two new control lines for jumps, one for rd mux and one for JALR
-5. test updated immgen/sign extend
-6. move branch hardware to ID stage this involves moving the address adder and jump stuff to the id stage.
-need to add mux to change source of adder for address for jumps.
-7. test hazard detection and branch prediction hardware.
-8. create stalling unit and flush unit
+
+checklist:
+test hazard unit
+look over control unit again
+construct full data path

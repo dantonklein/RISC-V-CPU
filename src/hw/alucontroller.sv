@@ -10,7 +10,7 @@ module alucontroller
     localparam logic [2:0] Immediate = 3'd1;
     localparam logic [2:0] LUI = 3'd2;
     localparam logic [2:0] loads_stores = 3'd3;
-    localparam logic [2:0] branches = 3'd4;
+    //localparam logic [2:0] branches = 3'd4;
     localparam logic [2:0] AUIPC = 3'd5;
     localparam logic [2:0] jumps = 3'd6;
 
@@ -28,8 +28,8 @@ module alucontroller
     // localparam logic [3:0] SGTE_S = 4'd11;
     // localparam logic [3:0] SGTE_U = 4'd12;
     localparam logic [3:0] In1_To_Out = 4'd10;
-    localparam logic [3:0] In0_To_Out = 4'd11;
-    localparam logic [3:0] In0_To_Out_Plus_4 = 4'd12;
+    //localparam logic [3:0] In0_To_Out = 4'd11;
+    localparam logic [3:0] In0_To_Out_Plus_4 = 4'd11;
     localparam logic [3:0] Debug = 4'd15;
 
     always_comb begin
@@ -98,7 +98,7 @@ module alucontroller
         end
         else if(ALUOp == AUIPC) begin
             //AUIPC
-            aluselect = In0_To_Out;
+            aluselect = Add;
         end
         else if(ALUOp == jumps) begin
             //JAL and JALR

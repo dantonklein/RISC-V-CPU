@@ -12,7 +12,7 @@ module alu
     output logic [DATA_WIDTH-1:0] out
 );
 always_comb begin
-    is_zero = 1'b0;
+    //is_zero = 1'b0;
 
     case(aluselect)
         //Addition
@@ -44,9 +44,9 @@ always_comb begin
         //For LUI
         4'd10: out = input1;
         //For AUIPC
-        4'd11: out = input0;
+        //4'd11: out = input0;
         //For JAL and JALR
-        4'd12: out = input0 + 4;
+        4'd11: out = input0 + 4;
         default: out = 0;
     endcase
 
@@ -65,7 +65,7 @@ module branch_alu
 
     input logic [2:0] funct3,
 
-    output logic out;
+    output logic out
     //output logic is_zero
 );
 always_comb begin

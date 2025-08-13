@@ -61,6 +61,19 @@ module register
 
 endmodule
 
+module adder #(
+    parameter int WIDTH = 32
+)
+(
+    input logic[WIDTH-1:0] in0,
+    input logic[WIDTH-1:0] in1,
+    output logic[WIDTH-1:0] out
+);
+
+assign out = in0 + in1;
+
+endmodule
+
 module delay
 #(
     parameter int WIDTH = 32,
