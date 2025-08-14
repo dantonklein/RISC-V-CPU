@@ -50,10 +50,10 @@ module ID_EX_Register #(
 
     input logic ID_RegWrite,
     input logic ID_MemToReg,
-    input logic ID_MemWrite,
     input logic ID_MemRead,
-    input logic ID_Immediate,
+    input logic ID_MemWrite,
     input logic[2:0] ID_ALUOp,
+    input logic ID_Immediate,
     input logic ID_Jump,
     input logic ID_Auipc,
 
@@ -73,10 +73,10 @@ module ID_EX_Register #(
 
     output logic EX_RegWrite,
     output logic EX_MemToReg,
-    output logic EX_MemWrite,
     output logic EX_MemRead,
-    output logic EX_Immediate,
+    output logic EX_MemWrite,
     output logic[2:0] EX_ALUOp,
+    output logic EX_Immediate,
     output logic EX_Jump,
     output logic EX_Auipc
 
@@ -151,14 +151,14 @@ module EX_MEM_Register #(
 (
     input logic[WIDTH-1:0] EX_Alu,
     input logic[WIDTH-1:0] EX_RegisterData2,
-    input logic[4-1:0] EX_Rs2,
+    input logic[4:0] EX_Rs2,
     input logic[2:0] EX_Funct3,
     input logic[4:0] EX_Rd,
 
     input logic EX_RegWrite,
     input logic EX_MemToReg,
-    input logic EX_MemWrite,
     input logic EX_MemRead,
+    input logic EX_MemWrite,
 
     input logic clk,
     input logic reset,
@@ -166,15 +166,14 @@ module EX_MEM_Register #(
 
     output logic[WIDTH-1:0] MEM_Alu,
     output logic[WIDTH-1:0] MEM_RegisterData2,
-    output logic[4-1:0] MEM_Rs2,
+    output logic[4:0] MEM_Rs2,
     output logic[2:0] MEM_Funct3,
     output logic[4:0] MEM_Rd,
 
     output logic MEM_RegWrite,
     output logic MEM_MemToReg,
-    output logic MEM_MemWrite,
-    output logic MEM_MemRead
-
+    output logic MEM_MemRead,
+    output logic MEM_MemWrite
 );
 
     always_ff @(posedge clk or posedge reset) begin
@@ -217,7 +216,7 @@ module EX_MEM_Register #(
     end
 endmodule
 
-module mem_wb_register #(
+module MEM_WB_Register #(
     parameter int WIDTH = 32
 )
 (

@@ -53,4 +53,4 @@ module branch_alu_forwarding_unit (
         else forward_data = 2'd0;
     end
 
-endmodule;
+endmodule

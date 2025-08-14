@@ -39,6 +39,32 @@ module mux3x1
 
 endmodule
 
+module mux4x1
+#(
+    parameter int WIDTH = 32
+)
+(
+    input logic[WIDTH-1:0] in0,
+    input logic[WIDTH-1:0] in1,
+    input logic[WIDTH-1:0] in2,
+    input logic[WIDTH-1:0] in3,
+    input logic[1:0] select,
+    output logic[WIDTH-1:0] data_out
+);
+
+    always_comb begin
+        case(select)
+            2'd0: data_out = in0;
+            2'd1: data_out = in1;
+            2'd2: data_out = in2;
+            2'd3: data_out = in3;
+        endcase
+    end
+
+endmodule
+
+
+
 module register
 #(
     parameter int WIDTH = 32

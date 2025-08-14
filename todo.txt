@@ -1,5 +1,3 @@
 
 checklist:
-test hazard unit
-look over control unit again
 construct full data path

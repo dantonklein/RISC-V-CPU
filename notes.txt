@@ -314,7 +314,7 @@ this can be achieved with the hazard detection unit
 options for dealing with control hazards
 assume branch not taken: if it is taken, the instructions that are being fetched must be discarded, execution continues at branch target
 to discard instructions we need to change the control values to zero like before.
-we must also change the 3 instructions in if, id, and ex stages. 
+//we must also change the 3 instructions in if, id, and ex stages. 
 
 for moving branch alu to ID stage, we need a data forwarding unit for it and a possible stall if the branch requires data from the instruction prior.
 

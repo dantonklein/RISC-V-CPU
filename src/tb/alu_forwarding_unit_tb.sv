@@ -90,5 +90,7 @@ module alu_forwarding_unit_tb #(
         EX_Rs <= 5'd0;
         @(posedge clk);
         $display("edge case 3 forward_data: %d", forward_data);
+        
+        disable generate_clk;
     end
 endmodule
