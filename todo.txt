@@ -1,3 +1,22 @@
+Checklist:
 
-checklist:
-construct full data path
+instructions to test:
+add, sub, sll, srl, sra, and, or, xor, slt, sltu
+addi, slli, srli, srai, andi, ori, xori, slti, sltiu, 
+lui, auipc
+lb, lbu, lh, lhu, lw, sb, sh, sw
+jal, jalr,
+beq, bne, blt, bltu, bge, 
+
+test data forwarding
+writing to a register that gets read from the next cycle
+writing to a register that gets read from 2 cycles
+
+test these hazards
+Hazard 1: load instruction saving to a register used by a branch the next cycle
+Hazard 2: load instruction saving to a register used by a jump the next cycle
+Hazard 3: instruction tries to read a register following a load instruction that writes the same register
+Hazard 4: alu instruction in EX immediately preceding a branch produces an operand for the branch
+Hazard 5: alu instruction in EX immediately preceding a jump produces an operand for the jump
+
+test branch prediction
