@@ -2,7 +2,7 @@
 //My naming convention is that all caps is a module while first letter caps is for signals.
 
 module datapath #(
-    parameter int ADDR_WIDTH = 32
+    parameter int ADDR_WIDTH = 16
 ) (
     input logic debug_enable,
     input logic clk,
@@ -624,7 +624,6 @@ MEM_WB_Register #(
 
     .clk(clk),
     .reset(rst),
-    .flush(off),
 
     .WB_Data(WB_Data),
     .WB_Alu(WB_Alu),

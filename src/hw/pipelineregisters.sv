@@ -20,18 +20,16 @@ module IF_ID_Register #(
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
             ID_Pc <= '0;
-            ID_Instruction <= '0;
         end
         else if (flush) begin
             ID_Pc <= IF_Pc;
-            ID_Instruction <= '0;
         end
         else if (!stall) begin
             ID_Pc <= IF_Pc;
-            ID_Instruction <= IF_Instruction;
         end
     end
-
+    //register stuff gets handled in instruction ram
+    assign ID_Instruction = IF_Instruction;
 endmodule
 
 module ID_EX_Register #(
@@ -231,7 +229,6 @@ module MEM_WB_Register #(
 
     input logic clk,
     input logic reset,
-    input logic flush,
 
     output logic[WIDTH-1:0] WB_Data,
     output logic[WIDTH-1:0] WB_Alu,
@@ -243,29 +240,24 @@ module MEM_WB_Register #(
     output logic WB_MemToReg
 );
 always_ff @(posedge clk or posedge reset) begin
-        if(reset) begin
-            WB_Data <= '0;
-            WB_Alu <= '0;
-            WB_Funct3 <= '0;
-            WB_Rd <= '0;
-            WB_RegWrite <= '0;
-            WB_MemToReg <= '0;
-        end
-        else if(flush) begin
-            WB_Data <= '0;
-            WB_Alu <= '0;
-            WB_Funct3 <= '0;
-            WB_Rd <= '0;
-            WB_RegWrite <= '0;
-            WB_MemToReg <= '0;
-        end
-        else begin
-            WB_Data <= MEM_Data;
-            WB_Alu <= MEM_Alu;
-            WB_Funct3 <= MEM_Funct3;
-            WB_Rd <= MEM_Rd;
-            WB_RegWrite <= MEM_RegWrite;
-            WB_MemToReg <= MEM_MemToReg;
-        end
+    if(reset) begin
+        //WB_Data <= '0;
+        WB_Alu <= '0;
+        WB_Funct3 <= '0;
+        WB_Rd <= '0;
+        WB_RegWrite <= '0;
+        WB_MemToReg <= '0;
     end
+    else begin
+        //WB_Data <= MEM_Data;
+        WB_Alu <= MEM_Alu;
+        WB_Funct3 <= MEM_Funct3;
+        WB_Rd <= MEM_Rd;
+        WB_RegWrite <= MEM_RegWrite;
+        WB_MemToReg <= MEM_MemToReg;
+    end
+end
+
+//The data ram has the 1 cycle delay for this pipeline stage.
+assign WB_Data = MEM_Data;
 endmodule
