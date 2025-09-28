@@ -233,7 +233,7 @@ module MEM_WB_Register #(
     output logic[WIDTH-1:0] WB_Data,
     output logic[WIDTH-1:0] WB_Alu,
 
-    output logic[4:0] WB_Funct3,
+    output logic[2:0] WB_Funct3,
     output logic[4:0] WB_Rd,
 
     output logic WB_RegWrite,

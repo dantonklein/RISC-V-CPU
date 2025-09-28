@@ -41,23 +41,25 @@ module data_ram #(
     output logic[31:0] data_out,
     output logic data_access_fault_exception
 );
-    localparam logic[1:0] SB = 3'b000;
-    localparam logic[1:0] SH = 3'b001;
-    localparam logic[1:0] SW = 3'b010;
+    localparam logic[2:0] SB = 3'b000;
+    localparam logic[2:0] SH = 3'b001;
+    localparam logic[2:0] SW = 3'b010;
 
-    localparam logic[1:0] LB = 3'b000;
-    localparam logic[1:0] LH = 3'b001;
-    localparam logic[1:0] LW = 3'b010;
-    localparam logic[1:0] LBU = 3'b100;
-    localparam logic[1:0] LHU = 3'b101;
+    localparam logic[2:0] LB = 3'b000;
+    localparam logic[2:0] LH = 3'b001;
+    localparam logic[2:0] LW = 3'b010;
+    localparam logic[2:0] LBU = 3'b100;
+    localparam logic[2:0] LHU = 3'b101;
     
     logic data_access_fault_exception_temp;
     logic read_next_cycle;
+    logic[2:0] funct3_next_cycle;
     logic [RAM_SIZE_WIDTH-1:0] effective_address;
     logic [1:0] effective_address_next_cycle;
 
     //Check for fault exception
     always_comb begin
+        data_access_fault_exception_temp = 0;
         if((funct3 == SW && write) || (funct3 == LW && read)) begin
             if(address > 2 ** (RAM_SIZE_WIDTH) - 4) data_access_fault_exception_temp = 1;
         end
@@ -67,7 +69,6 @@ module data_ram #(
         else if(write || read) begin
             if(address > 2 ** (RAM_SIZE_WIDTH) - 1) data_access_fault_exception_temp = 1;
         end
-        else data_access_fault_exception_temp = 0;
     end
 
     //address translation, eventually a memory management unit will be made
@@ -116,6 +117,8 @@ module data_ram #(
                         writes[3] = !data_access_fault_exception_temp & write;
                         ram_template_addresses[3] = effective_address[15:2];
                     end
+                    //default to make vivado happy
+                    default: inputs[0] = '0;
                 endcase
             end
             2'd1: begin
@@ -147,6 +150,8 @@ module data_ram #(
                         writes[0] = !data_access_fault_exception_temp & write;
                         ram_template_addresses[0] = effective_address[15:2] + 1;
                     end
+                    //default to make vivado happy
+                    default: inputs[0] = '0;
                 endcase
             end
             2'd2: begin
@@ -178,6 +183,8 @@ module data_ram #(
                         writes[1] = !data_access_fault_exception_temp & write;
                         ram_template_addresses[1] = effective_address[15:2] + 1;
                     end
+                    //default to make vivado happy
+                    default: inputs[0] = '0;
                 endcase
             end
             2'd3: begin
@@ -209,6 +216,8 @@ module data_ram #(
                         writes[2] = !data_access_fault_exception_temp & write;
                         ram_template_addresses[2] = effective_address[15:2] + 1;
                     end
+                    //default to make vivado happy
+                    default: inputs[0] = '0;
                 endcase
             end
         endcase
@@ -224,7 +233,7 @@ module data_ram #(
                 .ADDR_WIDTH(RAM_SIZE_WIDTH - 2)
             ) rams (
                 .clk(clk),
-                .address(effective_address[i]),
+                .address(ram_template_addresses[i]),
                 .write(writes[i]),
                 .data_in(inputs[i]),
                 .data_out(outputs[i])
@@ -232,52 +241,72 @@ module data_ram #(
         end
     endgenerate
    
+    logic data_access_fault_exception_next_cycle;
     //delay signals
     always_ff @(posedge clk) begin
-        data_access_fault_exception <= data_access_fault_exception_temp;
+        data_access_fault_exception_next_cycle <= data_access_fault_exception_temp;
         read_next_cycle <= read;
         effective_address_next_cycle <= effective_address[1:0];
+        funct3_next_cycle <= funct3;
     end
 
+    assign data_access_fault_exception = data_access_fault_exception_next_cycle;
     //this section is in the write back stage 
-    logic [23:0] zero_padding;
     always_comb begin
+        logic [23:0] zero_padding;
         zero_padding = '0;
 
-        //default data_out
-        data_out = '0;
-        if(read_next_cycle && !data_access_fault_exception) begin
+        if(read_next_cycle && !data_access_fault_exception_next_cycle) begin
             case(effective_address_next_cycle)
                 2'd0: begin
-                    case(funct3) 
-                        LB, LBU: data_out = {zero_padding, outputs[0]}
-                        LH, LHU: data_out = {zero_padding[15:0], outputs[1], outputs[0]};
-                        LW: data_out = {outputs[3], outputs[2], outputs[1], outputs[0]};
+                    case(funct3_next_cycle) 
+                        LB:  data_out = {zero_padding, outputs[0]};
+                        LBU: data_out = {zero_padding, outputs[0]};
+                        LH:  data_out = {zero_padding[15:0], outputs[1], outputs[0]};
+                        LHU: data_out = {zero_padding[15:0], outputs[1], outputs[0]};
+                        LW:  data_out = {outputs[3], outputs[2], outputs[1], outputs[0]};
+                        //default to make vivado happy
+                        default: data_out = '0;
                     endcase
                 end
                 2'd1: begin
-                    case(funct3) 
-                        LB, LBU: data_out = {zero_padding, outputs[1]}
-                        LH, LHU: data_out = {zero_padding[15:0], outputs[2], outputs[1]};
-                        LW: data_out = {outputs[0], outputs[3], outputs[2], outputs[1]};
+                    case(funct3_next_cycle) 
+                        LB:  data_out = {zero_padding, outputs[1]};
+                        LBU: data_out = {zero_padding, outputs[1]};
+                        LH:  data_out = {zero_padding[15:0], outputs[2], outputs[1]};
+                        LHU: data_out = {zero_padding[15:0], outputs[2], outputs[1]};
+                        LW:  data_out = {outputs[0], outputs[3], outputs[2], outputs[1]};
+                        //default to make vivado happy
+                        default: data_out = '0;
                     endcase
                 end
                 2'd2: begin
-                    case(funct3) 
-                        LB, LBU: data_out = {zero_padding, outputs[2]}
-                        LH, LHU: data_out = {zero_padding[15:0], outputs[3], outputs[2]};
-                        LW: data_out = {outputs[1], outputs[0], outputs[3], outputs[2]};
+                    case(funct3_next_cycle) 
+                        LB:  data_out = {zero_padding, outputs[2]};
+                        LBU: data_out = {zero_padding, outputs[2]};
+                        LH:  data_out = {zero_padding[15:0], outputs[3], outputs[2]};
+                        LHU: data_out = {zero_padding[15:0], outputs[3], outputs[2]};
+                        LW:  data_out = {outputs[1], outputs[0], outputs[3], outputs[2]};
+                        //default to make vivado happy
+                        default: data_out = '0;
                     endcase
                 end
                 2'd3: begin
-                    case(funct3) 
-                        LB, LBU: data_out = {zero_padding, outputs[3]}
-                        LH, LHU: data_out = {zero_padding[15:0], outputs[0], outputs[3]};
-                        LW: data_out = {outputs[2], outputs[1], outputs[0], outputs[3]};
+                    case(funct3_next_cycle) 
+                        LB:  data_out = {zero_padding, outputs[3]};
+                        LBU: data_out = {zero_padding, outputs[3]};
+                        LH:  data_out = {zero_padding[15:0], outputs[0], outputs[3]};
+                        LHU: data_out = {zero_padding[15:0], outputs[0], outputs[3]};
+                        LW:  data_out = {outputs[2], outputs[1], outputs[0], outputs[3]};
+                        //default to make vivado happy
+                        default: data_out = '0;
                     endcase
                 end
+                //default to make vivado happy
+                default: data_out = '0;
             endcase
         end
+        else data_out = '0;
     end
 
 endmodule
@@ -299,18 +328,17 @@ module instruction_ram #(
 );
     logic flush_next_cycle;
     //address translation, eventually a memory management unit will be made
-    assign effective_address = PC[RAM_SIZE_WIDTH-1:0];
 
     always_ff @(posedge clk) begin
         flush_next_cycle <= flush;
     end
     logic [DATA_WIDTH-1:0] inputs[4];
-    logic [ADDR_WIDTH-3:0] ram_template_address;
+    logic [RAM_SIZE_WIDTH-3:0] ram_template_address;
     logic [DATA_WIDTH-1:0] outputs[4];
-    
+        
     //WRITING IS ONLY FOR DEBUG, WILL NOT BE USED BECAUSE I FIGURED OUT $readmemb EXISTS
     always_comb begin
-        ram_template_address = effective_address[15:2];
+        ram_template_address = PC[15:2];
         inputs[0] = instruction_in[7:0];
         inputs[1] = instruction_in[15:8];
         inputs[2] = instruction_in[23:16];

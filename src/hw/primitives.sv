@@ -115,7 +115,7 @@ module delay
     logic [WIDTH-1:0] regs[CYCLES+1];
 
     assign regs[0] = in;
-    assign out = regs[CYCLES];
+    assign data_out = regs[CYCLES];
 
     for (genvar i = 0; i < CYCLES; i++) begin :register_array
         register #(.WIDTH(WIDTH)) register_array (

@@ -83,7 +83,7 @@ always_comb begin
         3'b110: out = input0 < input1;
         //BGEU
         3'b111: out = input0 >= input1;
-        
+        default: out = '0;
     endcase
 end
 endmodule

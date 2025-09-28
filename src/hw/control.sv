@@ -1,5 +1,5 @@
 module control (
-    input logic[31:0] instruction,
+    input logic[6:0] instruction,
     output logic AttemptBranch,
     output logic IsJALR,
     output logic Jump,
@@ -80,6 +80,8 @@ always_comb begin
             Jump = 1;
             IsJALR = 1;
         end
+        //had to add default cuz vivado was getting mad
+        default: RegWrite = 1;
     endcase
 end
 endmodule

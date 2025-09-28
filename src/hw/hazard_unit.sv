@@ -25,7 +25,10 @@ typedef enum logic {
 state_t state_r, next_state;
 
 always_ff @(posedge clk or posedge rst) begin
-    if (rst) state_r <= IDLE;
+    if (rst) begin
+        state_r <= IDLE;
+        stall_count <= '0;
+    end
     else begin
         state_r <= next_state;
         stall_count <= next_stall_count;

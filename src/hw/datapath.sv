@@ -8,8 +8,8 @@ module datapath #(
     input logic clk,
     input logic rst,
     input logic instruction_write,
-    input logic[31:0] instruction_in
-
+    input logic[31:0] instruction_in,
+    output logic data_access_fault_exception
 );
 logic [31:0] four;
 logic on;
@@ -112,7 +112,6 @@ logic[31:0] EX_Alu_Forward_Mux2;
 logic[3:0] EX_Alu_Select;
 
 logic EX_Alu_Input1_Mux_Select;
-logic EX_Alu_Input2_Mux_Select;
 
 logic[31:0] EX_Alu_Input1_Mux;
 logic[31:0] EX_Alu_Input2_Mux;
@@ -156,8 +155,8 @@ logic[31:0] WB_Sign_Extender;
 logic[31:0] WB_Data;
 logic[31:0] WB_Alu;
 
-logic[4:0] WB_Funct3;
-logic [4:0] WB_Rd;
+logic[2:0] WB_Funct3;
+logic[4:0] WB_Rd;
 //Instantiated Modules
 
 //Instruction Fetch Stage
@@ -215,12 +214,14 @@ register #(
 instruction_ram #(
     .DATA_WIDTH(8),
     //.ADDR_WIDTH(32)
-    .ADDR_WIDTH(ADDR_WIDTH)
+    .ADDR_WIDTH(32),
+    .RAM_SIZE_WIDTH(ADDR_WIDTH)
 ) IF_INSTRUCTION_RAM (
     .clk(clk),
     .instruction_write(instruction_write),
     .instruction_in(instruction_in),
     .PC(IF_Pc),
+    .flush(ID_Flush),
     .instruction(IF_Instruction)
 );
 
@@ -246,7 +247,7 @@ assign ID_Funct3 = ID_Instruction[14:12];
 assign ID_Rd = ID_Instruction[11:7];
 
 control ID_CONTROL_UNIT (
-    .instruction(ID_Instruction),
+    .instruction(ID_Instruction[6:0]),
     .AttemptBranch(ID_AttemptBranch),
     .IsJALR(ID_IsJALR),
     .Jump(ID_Jump_Pre_Mux),
@@ -355,7 +356,7 @@ assign ID_Pc_Slice = ID_Pc[4:2];
 branch_prediction #(
     .table_width(3)
 ) ID_BRANCH_PREDICTION_UNIT (
-    .ID_Pc_Slice(ID_Pc_Slice),
+    .ID_PC_Slice(ID_Pc_Slice),
     .ID_BranchTaken(ID_BranchTaken),
     .ID_AttemptBranch(ID_AttemptBranch),
     .clk(clk),
@@ -452,7 +453,7 @@ ID_EX_Register #(
     .ID_Auipc(ID_Auipc),
 
     .clk(clk),
-    .rst(rst),
+    .reset(rst),
     .flush(ID_Flush),
 
     .EX_Pc(EX_Pc),
@@ -555,7 +556,7 @@ alu #(
 EX_MEM_Register #(
     .WIDTH(32)
 ) EX_MEM_REGISTER (
-    .Ex_Alu(Ex_Alu),
+    .EX_Alu(EX_Alu),
     .EX_RegisterData2(EX_Alu_Forward_Mux2),
     .EX_Rs2(EX_Rs2),
     .EX_Funct3(EX_Funct3),
@@ -600,7 +601,8 @@ mux2x1 #(
 
 data_ram #(
     .DATA_WIDTH(8),
-    .ADDR_WIDTH(ADDR_WIDTH)
+    .ADDR_WIDTH(32),
+    .RAM_SIZE_WIDTH(ADDR_WIDTH)
 ) MEM_DATA_RAM (
     .clk(clk),
 
@@ -609,7 +611,8 @@ data_ram #(
     .write(MEM_MemWrite),
     .read(MEM_MemRead),
     .funct3(MEM_Funct3),
-    .data_out(MEM_Data_Ram)
+    .data_out(MEM_Data_Ram),
+    .data_access_fault_exception(data_access_fault_exception)
 );
 
 MEM_WB_Register #(

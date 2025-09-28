@@ -37,19 +37,16 @@ module loads_sign_extend #(
         out = '0;
         case (funct3)
 
-            LW: out = in;
-            LBU: out = in;
-            LHU: out = in;
+            LW, LBU, LHU: out = in;
             LB: begin
                 if(in[7] == 1'b1) padder = '1;
                 out = {padder, in[7:0]};
             end
-            //LH
             LH: begin
                 if(in[15] == 1'b1) padder = '1;
                 out = {padder[15:0], in[15:0]};
             end
-
+            default: out = '0;
         endcase
     end
 
