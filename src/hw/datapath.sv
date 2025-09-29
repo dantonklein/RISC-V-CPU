@@ -39,6 +39,7 @@ logic[31:0] IF_Instruction;
 //ID Stage
 logic ID_Stall;
 logic ID_Flush;
+logic ID_Flush_Delayed;
 logic ID_Jump;
 logic ID_Mispredict;
 logic ID_PredictBranchTaken;
@@ -86,7 +87,6 @@ logic[31:0] ID_Branch_Alu_Forward_Mux2;
 logic[1:0] ID_Branch_Alu_Forward_Mux_Select_1;
 logic[1:0] ID_Branch_Alu_Forward_Mux_Select_2;
 
-logic[2:0] ID_Pc_Slice;
 logic[4:0] ID_Rs1;
 logic[4:0] ID_Rs2;
 logic[4:0] ID_Rd;
@@ -221,7 +221,6 @@ instruction_ram #(
     .instruction_write(instruction_write),
     .instruction_in(instruction_in),
     .PC15_2(IF_Pc[15:2]),
-    .flush(ID_Flush),
     .instruction(IF_Instruction)
 );
 
@@ -235,7 +234,6 @@ IF_ID_Register #(
     .clk(clk),
     .reset(rst),
     .stall(IF_Stall),
-    .flush(ID_Flush),
     .ID_Pc(ID_Pc),
     .ID_Instruction(ID_Instruction)
 );
@@ -246,8 +244,14 @@ assign ID_Rs1 = ID_Instruction[19:15];
 assign ID_Funct3 = ID_Instruction[14:12];
 assign ID_Rd = ID_Instruction[11:7];
 
+//delay flush one cycle
+always_ff @ (posedge clk) begin
+    ID_Flush_Delayed <= ID_Flush;
+end
+
 control ID_CONTROL_UNIT (
     .instruction(ID_Instruction[6:0]),
+    .delayed_flush(ID_Flush_Delayed),
     .AttemptBranch(ID_AttemptBranch),
     .IsJALR(ID_IsJALR),
     .Jump(ID_Jump_Pre_Mux),
@@ -351,12 +355,11 @@ register #(
     .data_out(ID_Corrected_Pc_Register)
 );
 
-assign ID_Pc_Slice = ID_Pc[4:2];
 
 branch_prediction #(
     .table_width(3)
 ) ID_BRANCH_PREDICTION_UNIT (
-    .ID_PC_Slice(ID_Pc_Slice),
+    .ID_PC_Slice(ID_Pc[4:2]),
     .ID_BranchTaken(ID_BranchTaken),
     .ID_AttemptBranch(ID_AttemptBranch),
     .clk(clk),
@@ -569,7 +572,7 @@ EX_MEM_Register #(
 
     .clk(clk),
     .reset(rst),
-    .flush(off),
+    //.flush(off),
 
     .MEM_Alu(MEM_Alu_Result),
     .MEM_RegisterData2(MEM_Read_Data2),

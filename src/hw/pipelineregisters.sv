@@ -11,7 +11,6 @@ module IF_ID_Register #(
     input logic clk,
     input logic reset,
     input logic stall,
-    input logic flush,
 
     output logic[WIDTH-1:0] ID_Pc,
     output logic[31:0] ID_Instruction
@@ -20,9 +19,6 @@ module IF_ID_Register #(
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
             ID_Pc <= '0;
-        end
-        else if (flush) begin
-            ID_Pc <= IF_Pc;
         end
         else if (!stall) begin
             ID_Pc <= IF_Pc;
@@ -160,7 +156,7 @@ module EX_MEM_Register #(
 
     input logic clk,
     input logic reset,
-    input logic flush,
+    //input logic flush,
 
     output logic[WIDTH-1:0] MEM_Alu,
     output logic[WIDTH-1:0] MEM_RegisterData2,
@@ -187,18 +183,18 @@ module EX_MEM_Register #(
             MEM_MemWrite <= '0;
             MEM_MemRead <= '0;
         end
-        else if(flush) begin
-            MEM_Alu <= '0;
-            MEM_RegisterData2 <= '0;
-            MEM_Rs2 <= '0;
-            MEM_Funct3 <= '0;
-            MEM_Rd <= '0;
+        // else if(flush) begin
+        //     MEM_Alu <= '0;
+        //     MEM_RegisterData2 <= '0;
+        //     MEM_Rs2 <= '0;
+        //     MEM_Funct3 <= '0;
+        //     MEM_Rd <= '0;
 
-            MEM_RegWrite <= '0;
-            MEM_MemToReg <= '0;
-            MEM_MemWrite <= '0;
-            MEM_MemRead <= '0;
-        end
+        //     MEM_RegWrite <= '0;
+        //     MEM_MemToReg <= '0;
+        //     MEM_MemWrite <= '0;
+        //     MEM_MemRead <= '0;
+        // end
         else begin
             MEM_Alu <= EX_Alu;
             MEM_RegisterData2 <= EX_RegisterData2;

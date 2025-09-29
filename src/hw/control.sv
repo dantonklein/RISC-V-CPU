@@ -1,5 +1,6 @@
 module control (
     input logic[6:0] instruction,
+    input logic delayed_flush,
     output logic AttemptBranch,
     output logic IsJALR,
     output logic Jump,
@@ -33,55 +34,57 @@ always_comb begin
     ALUOp = '0;
     Immediate = '0;
     Auipc = '0;
-    case(instruction[6:0]) 
-        R_type: begin
-            RegWrite = 1;
-            ALUOp = 3'd0;
-        end
-        I_type: begin
-            RegWrite = 1;
-            Immediate = 1;
-            ALUOp = 3'd1;
-        end
-        Branch: begin
-            AttemptBranch = 1;
-        end
-        Loads: begin
-            RegWrite = 1;
-            ALUOp = 3'd3;
-            MemToReg = 1;
-            MemRead = 1;
-            Immediate = 1;
-        end
-        Stores: begin
-            ALUOp = 3'd3;
-            MemWrite = 1;
-            Immediate = 1;
-        end
-        LUI: begin
-            RegWrite = 1;
-            ALUOp = 3'd2;
-            Immediate = 1;
-        end
-        AUIPC: begin
-            RegWrite = 1;
-            ALUOp = 3'd5;
-            Immediate = 1;
-            Auipc = 1;
-        end
-        JAL: begin
-            RegWrite = 1;
-            ALUOp = 3'd6;
-            Jump = 1;
-        end
-        JALR: begin
-            RegWrite = 1;
-            ALUOp = 3'd6;
-            Jump = 1;
-            IsJALR = 1;
-        end
-        //had to add default cuz vivado was getting mad
-        default: RegWrite = 1;
-    endcase
+    if(!delayed_flush) begin
+        case(instruction[6:0]) 
+            R_type: begin
+                RegWrite = 1;
+                ALUOp = 3'd0;
+            end
+            I_type: begin
+                RegWrite = 1;
+                Immediate = 1;
+                ALUOp = 3'd1;
+            end
+            Branch: begin
+                AttemptBranch = 1;
+            end
+            Loads: begin
+                RegWrite = 1;
+                ALUOp = 3'd3;
+                MemToReg = 1;
+                MemRead = 1;
+                Immediate = 1;
+            end
+            Stores: begin
+                ALUOp = 3'd3;
+                MemWrite = 1;
+                Immediate = 1;
+            end
+            LUI: begin
+                RegWrite = 1;
+                ALUOp = 3'd2;
+                Immediate = 1;
+            end
+            AUIPC: begin
+                RegWrite = 1;
+                ALUOp = 3'd5;
+                Immediate = 1;
+                Auipc = 1;
+            end
+            JAL: begin
+                RegWrite = 1;
+                ALUOp = 3'd6;
+                Jump = 1;
+            end
+            JALR: begin
+                RegWrite = 1;
+                ALUOp = 3'd6;
+                Jump = 1;
+                IsJALR = 1;
+            end
+            //had to add default cuz vivado was getting mad
+            default: RegWrite = 1;
+        endcase
+    end
 end
 endmodule
