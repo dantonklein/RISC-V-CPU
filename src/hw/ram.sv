@@ -253,17 +253,15 @@ module data_ram #(
     assign data_access_fault_exception = data_access_fault_exception_next_cycle;
     //this section is in the write back stage 
     always_comb begin
-        logic [23:0] zero_padding;
-        zero_padding = '0;
-
+       
         if(read_next_cycle && !data_access_fault_exception_next_cycle) begin
             case(effective_address_next_cycle)
                 2'd0: begin
                     case(funct3_next_cycle) 
-                        LB:  data_out = {zero_padding, outputs[0]};
-                        LBU: data_out = {zero_padding, outputs[0]};
-                        LH:  data_out = {zero_padding[15:0], outputs[1], outputs[0]};
-                        LHU: data_out = {zero_padding[15:0], outputs[1], outputs[0]};
+                        LB:  data_out = {'0, outputs[0]};
+                        LBU: data_out = {'0, outputs[0]};
+                        LH:  data_out = {'0, outputs[1], outputs[0]};
+                        LHU: data_out = {'0, outputs[1], outputs[0]};
                         LW:  data_out = {outputs[3], outputs[2], outputs[1], outputs[0]};
                         //default to make vivado happy
                         default: data_out = '0;
@@ -271,10 +269,10 @@ module data_ram #(
                 end
                 2'd1: begin
                     case(funct3_next_cycle) 
-                        LB:  data_out = {zero_padding, outputs[1]};
-                        LBU: data_out = {zero_padding, outputs[1]};
-                        LH:  data_out = {zero_padding[15:0], outputs[2], outputs[1]};
-                        LHU: data_out = {zero_padding[15:0], outputs[2], outputs[1]};
+                        LB:  data_out = {'0, outputs[1]};
+                        LBU: data_out = {'0, outputs[1]};
+                        LH:  data_out = {'0, outputs[2], outputs[1]};
+                        LHU: data_out = {'0, outputs[2], outputs[1]};
                         LW:  data_out = {outputs[0], outputs[3], outputs[2], outputs[1]};
                         //default to make vivado happy
                         default: data_out = '0;
@@ -282,10 +280,10 @@ module data_ram #(
                 end
                 2'd2: begin
                     case(funct3_next_cycle) 
-                        LB:  data_out = {zero_padding, outputs[2]};
-                        LBU: data_out = {zero_padding, outputs[2]};
-                        LH:  data_out = {zero_padding[15:0], outputs[3], outputs[2]};
-                        LHU: data_out = {zero_padding[15:0], outputs[3], outputs[2]};
+                        LB:  data_out = {'0, outputs[2]};
+                        LBU: data_out = {'0, outputs[2]};
+                        LH:  data_out = {'0, outputs[3], outputs[2]};
+                        LHU: data_out = {'0, outputs[3], outputs[2]};
                         LW:  data_out = {outputs[1], outputs[0], outputs[3], outputs[2]};
                         //default to make vivado happy
                         default: data_out = '0;
@@ -293,10 +291,10 @@ module data_ram #(
                 end
                 2'd3: begin
                     case(funct3_next_cycle) 
-                        LB:  data_out = {zero_padding, outputs[3]};
-                        LBU: data_out = {zero_padding, outputs[3]};
-                        LH:  data_out = {zero_padding[15:0], outputs[0], outputs[3]};
-                        LHU: data_out = {zero_padding[15:0], outputs[0], outputs[3]};
+                        LB:  data_out = {'0, outputs[3]};
+                        LBU: data_out = {'0, outputs[3]};
+                        LH:  data_out = {'0, outputs[0], outputs[3]};
+                        LHU: data_out = {'0, outputs[0], outputs[3]};
                         LW:  data_out = {outputs[2], outputs[1], outputs[0], outputs[3]};
                         //default to make vivado happy
                         default: data_out = '0;
@@ -312,9 +310,71 @@ module data_ram #(
 endmodule
 
 //Module thats a simple instruction memory
+// module instruction_ram #(
+//     //Byte-Addresed
+//     parameter int DATA_WIDTH = 32,
+//     parameter int ADDR_WIDTH = 32,
+//     parameter int RAM_SIZE_WIDTH = 16
+// ) (
+//     input logic clk,
+//     input logic flush,
+//     input logic instruction_write,
+//     input logic[31:0] instruction_in,
+//     input logic[13:0] PC15_2,
+
+//     output logic[31:0] instruction
+// );
+//     logic flush_next_cycle;
+//     //address translation, eventually a memory management unit will be made
+
+//     always_ff @(posedge clk) begin
+//         flush_next_cycle <= flush;
+//     end
+//     logic [DATA_WIDTH/4-1:0] inputs[4];
+//     logic [RAM_SIZE_WIDTH-3:0] ram_template_address;
+//     logic [DATA_WIDTH/4-1:0] outputs[4];
+        
+//     //WRITING IS ONLY FOR DEBUG, WILL NOT BE USED BECAUSE I FIGURED OUT $readmemb EXISTS
+//     always_comb begin
+//         ram_template_address = PC15_2;
+//         inputs[0] = instruction_in[7:0];
+//         inputs[1] = instruction_in[15:8];
+//         inputs[2] = instruction_in[23:16];
+//         inputs[3] = instruction_in[31:24];
+//     end
+
+//     //FPGA synthesizable rams
+//     generate
+//         for(genvar i = 0; i < 4; i++) begin : ram_array
+//             ram_template #(
+//                 .DATA_WIDTH(DATA_WIDTH/4),
+//                 .ADDR_WIDTH(RAM_SIZE_WIDTH - 2)
+//             ) rams (
+//                 .clk(clk),
+//                 .address(ram_template_address),
+//                 .write(instruction_write),
+//                 .data_in(inputs[i]),
+//                 .data_out(outputs[i])
+//             );
+//         end
+//     endgenerate
+
+//     //flush block
+//     always_comb begin
+//         if(flush_next_cycle) begin
+//             instruction = '0;
+//         end
+
+//         else begin
+//             instruction = {outputs[3], outputs[2], outputs[1], outputs[0]};
+//         end
+//     end
+// endmodule
+
+//this ram is word addressable. we are running with the assumption that the address will always be a multiple of 4 for simplicity.
+//the complexity of this topic will be addressed when an instruction cache and data cache are made.
 module instruction_ram #(
-    //Byte-Addresed
-    parameter int DATA_WIDTH = 8,
+    parameter int DATA_WIDTH = 32,
     parameter int ADDR_WIDTH = 32,
     parameter int RAM_SIZE_WIDTH = 16
 ) (
@@ -322,7 +382,7 @@ module instruction_ram #(
     input logic flush,
     input logic instruction_write,
     input logic[31:0] instruction_in,
-    input logic[ADDR_WIDTH-1:0] PC,
+    input logic[RAM_SIZE_WIDTH-3:0] PC15_2,
 
     output logic[31:0] instruction
 );
@@ -332,43 +392,20 @@ module instruction_ram #(
     always_ff @(posedge clk) begin
         flush_next_cycle <= flush;
     end
-    logic [DATA_WIDTH-1:0] inputs[4];
-    logic [RAM_SIZE_WIDTH-3:0] ram_template_address;
-    logic [DATA_WIDTH-1:0] outputs[4];
-        
-    //WRITING IS ONLY FOR DEBUG, WILL NOT BE USED BECAUSE I FIGURED OUT $readmemb EXISTS
+    logic [DATA_WIDTH-1:0] ram_output;
+    ram_template #(
+        .DATA_WIDTH(DATA_WIDTH),
+        .ADDR_WIDTH(RAM_SIZE_WIDTH - 2)
+    ) singular_ram (
+        .clk(clk),
+        .address(PC15_2),
+        .write(instruction_write),
+        .data_in(instruction_in),
+        .data_out(ram_output)
+    );
+    //flush block
     always_comb begin
-        ram_template_address = PC[15:2];
-        inputs[0] = instruction_in[7:0];
-        inputs[1] = instruction_in[15:8];
-        inputs[2] = instruction_in[23:16];
-        inputs[3] = instruction_in[31:24];
-    end
-
-    //FPGA synthesizable rams
-    generate
-        for(genvar i = 0; i < 4; i++) begin : ram_array
-            ram_template #(
-                .DATA_WIDTH(DATA_WIDTH),
-                .ADDR_WIDTH(RAM_SIZE_WIDTH - 2)
-            ) rams (
-                .clk(clk),
-                .address(ram_template_address),
-                .write(instruction_write),
-                .data_in(inputs[i]),
-                .data_out(outputs[i])
-            );
-        end
-    endgenerate
-
-    //Reading block
-    always_comb begin
-        if(flush_next_cycle) begin
-            instruction = '0;
-        end
-
-        else begin
-            instruction = {outputs[3], outputs[2], outputs[1], outputs[0]};
-        end
+        if(flush_next_cycle) instruction = '0;
+        else instruction = ram_output;
     end
 endmodule

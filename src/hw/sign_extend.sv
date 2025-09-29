@@ -31,20 +31,17 @@ module loads_sign_extend #(
     localparam logic[2:0] LBU = 3'b100;
     localparam logic[2:0] LHU = 3'b101;
 
-    logic [DATA_WIDTH-9:0] padder;
-    always_comb begin
-        padder = '0;
-        out = '0;
-        case (funct3)
 
+    always_comb begin
+        case (funct3)
             LW, LBU, LHU: out = in;
             LB: begin
-                if(in[7] == 1'b1) padder = '1;
-                out = {padder, in[7:0]};
+                if(in[7] == 1'b1) out = {'1, in[7:0]};
+                else out = {'0, in[7:0]};
             end
             LH: begin
-                if(in[15] == 1'b1) padder = '1;
-                out = {padder[15:0], in[15:0]};
+                if(in[15] == 1'b1) out = {'1, in[15:0]};
+                else out = {'0, in[15:0]};
             end
             default: out = '0;
         endcase

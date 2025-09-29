@@ -57,7 +57,7 @@ module ID_EX_Register #(
 
     input logic clk,
     input logic reset,
-    input logic flush,
+    //input logic flush,
 
     output logic[WIDTH-1:0] EX_Pc,
     output logic[WIDTH-1:0] EX_RegisterData1,
@@ -100,26 +100,26 @@ module ID_EX_Register #(
             EX_Jump <= '0;
             EX_Auipc <= '0;
         end
-        else if(flush) begin
-            EX_Pc <= '0;
-            EX_RegisterData1 <= '0;
-            EX_RegisterData2 <= '0;
-            EX_ImmediateGen <= '0;
-            EX_Funct7 <= '0;
-            EX_Funct3 <= '0;
-            EX_Rs1 <= '0;
-            EX_Rs2 <= '0;
-            EX_Rd <= '0;
+        // else if(flush) begin
+        //     EX_Pc <= '0;
+        //     EX_RegisterData1 <= '0;
+        //     EX_RegisterData2 <= '0;
+        //     EX_ImmediateGen <= '0;
+        //     EX_Funct7 <= '0;
+        //     EX_Funct3 <= '0;
+        //     EX_Rs1 <= '0;
+        //     EX_Rs2 <= '0;
+        //     EX_Rd <= '0;
 
-            EX_RegWrite <= '0;
-            EX_MemToReg <= '0;
-            EX_MemWrite <= '0;
-            EX_MemRead <= '0;
-            EX_Immediate <= '0;
-            EX_ALUOp <= '0;
-            EX_Jump <= '0;
-            EX_Auipc <= '0;
-        end
+        //     EX_RegWrite <= '0;
+        //     EX_MemToReg <= '0;
+        //     EX_MemWrite <= '0;
+        //     EX_MemRead <= '0;
+        //     EX_Immediate <= '0;
+        //     EX_ALUOp <= '0;
+        //     EX_Jump <= '0;
+        //     EX_Auipc <= '0;
+        // end
         else begin
             EX_Pc <= ID_Pc;
             EX_RegisterData1 <= ID_RegisterData1;

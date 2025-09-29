@@ -212,7 +212,7 @@ register #(
 );
 
 instruction_ram #(
-    .DATA_WIDTH(8),
+    .DATA_WIDTH(32),
     //.ADDR_WIDTH(32)
     .ADDR_WIDTH(32),
     .RAM_SIZE_WIDTH(ADDR_WIDTH)
@@ -220,7 +220,7 @@ instruction_ram #(
     .clk(clk),
     .instruction_write(instruction_write),
     .instruction_in(instruction_in),
-    .PC(IF_Pc),
+    .PC15_2(IF_Pc[15:2]),
     .flush(ID_Flush),
     .instruction(IF_Instruction)
 );
@@ -454,7 +454,7 @@ ID_EX_Register #(
 
     .clk(clk),
     .reset(rst),
-    .flush(ID_Flush),
+    //.flush(ID_Flush),
 
     .EX_Pc(EX_Pc),
     .EX_RegisterData1(EX_Read_Data1),
