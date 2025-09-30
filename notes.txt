@@ -355,3 +355,11 @@ Lets say the exception is caused by an I/O device or os service call, the os wou
 4. atomic extension
 5. memory translation stuff (fence.i, fence, sfence.vma)
 6. Implement priveledge and csr stuff (csrrw, csrrs, csrrc, csrrwi, csrrsi, csrrci)
+
+
+branching hardware causes instruction Fetch to fail timing constraints, will be creating another stage involving branch detection
+add stall and flush to ID/JB register
+add stall and flush to instruction ram in datapath
+remove flush from control in datapath
+
+modify hazard unit to accomodate state changes

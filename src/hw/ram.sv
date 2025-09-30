@@ -379,12 +379,16 @@ module instruction_ram #(
     parameter int RAM_SIZE_WIDTH = 16
 ) (
     input logic clk,
+    input logic flush,
+    input logic stall,
     input logic instruction_write,
     input logic[31:0] instruction_in,
     input logic[RAM_SIZE_WIDTH-3:0] PC15_2,
 
     output logic[31:0] instruction
 );
+    logic flush_next_cycle, stall_next_cycle;
+    logic[31:0] previous_instruction, ram_out;
     ram_template #(
         .DATA_WIDTH(DATA_WIDTH),
         .ADDR_WIDTH(RAM_SIZE_WIDTH - 2)
@@ -393,7 +397,17 @@ module instruction_ram #(
         .address(PC15_2),
         .write(instruction_write),
         .data_in(instruction_in),
-        .data_out(instruction)
+        .data_out(ram_out)
     );
+    always_ff @ (posedge clk) begin
+        flush_next_cycle <= flush;
+        stall_next_cycle <= stall;
+        previous_instruction <= ram_out;
+    end
+    always_comb begin
+        if(flush_next_cycle) instruction = '0;
+        else if(stall_next_cycle) instruction = previous_instruction;
+        else instruction = ram_out;
 
+    end
 endmodule

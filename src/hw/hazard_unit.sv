@@ -85,5 +85,7 @@ always_comb begin
         flush = 1;
         mispredict = 1;
     end
+    //jump handling
+    else if()
 end
 endmodule
