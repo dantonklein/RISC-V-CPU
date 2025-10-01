@@ -11,24 +11,28 @@ module IF_ID_Register #(
     input logic clk,
     input logic reset,
     input logic stall,
+    input logic flush,
 
     output logic[WIDTH-1:0] ID_Pc,
     output logic[31:0] ID_Instruction
 );
-
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
             ID_Pc <= '0;
         end
-        else if (!stall) begin
+        else if(flush) begin
+            ID_Pc <= '0;
+        end
+        else if(!stall) begin
             ID_Pc <= IF_Pc;
         end
+
     end
     //register stuff gets handled in instruction ram
     assign ID_Instruction = IF_Instruction;
 endmodule
 
-module ID_EX_Register #(
+module ID_JB_Register #(
     parameter int WIDTH = 32
 )
 (
@@ -50,6 +54,128 @@ module ID_EX_Register #(
     input logic ID_Immediate,
     input logic ID_Jump,
     input logic ID_Auipc,
+    input logic ID_IsJALR,
+    input logic ID_AttemptBranch,
+
+    input logic clk,
+    input logic reset,
+    input logic flush,
+    input logic stall,
+
+    output logic[WIDTH-1:0] JB_Pc,
+    output logic[WIDTH-1:0] JB_RegisterData1,
+    output logic[WIDTH-1:0] JB_RegisterData2,
+    output logic[WIDTH-1:0] JB_ImmediateGen,
+    output logic[6:0] JB_Funct7,
+    output logic[2:0] JB_Funct3,
+    output logic[4:0] JB_Rs1,
+    output logic[4:0] JB_Rs2,
+    output logic[4:0] JB_Rd,
+
+    output logic JB_RegWrite,
+    output logic JB_MemToReg,
+    output logic JB_MemRead,
+    output logic JB_MemWrite,
+    output logic[2:0] JB_ALUOp,
+    output logic JB_Immediate,
+    output logic JB_Jump,
+    output logic JB_Auipc,
+    output logic JB_IsJALR,
+    output logic JB_AttemptBranch
+
+);
+    always_ff @(posedge clk or posedge reset) begin
+        if(reset) begin
+            JB_Pc <= '0;
+            JB_RegisterData1 <= '0;
+            JB_RegisterData2 <= '0;
+            JB_ImmediateGen <= '0;
+            JB_Funct7 <= '0;
+            JB_Funct3 <= '0;
+            JB_Rs1 <= '0;
+            JB_Rs2 <= '0;
+            JB_Rd <= '0;
+
+            JB_RegWrite <= '0;
+            JB_MemToReg <= '0;
+            JB_MemWrite <= '0;
+            JB_MemRead <= '0;
+            JB_Immediate <= '0;
+            JB_ALUOp <= '0;
+            JB_Jump <= '0;
+            JB_Auipc <= '0;
+            JB_IsJALR <= '0;
+            JB_AttemptBranch <= '0;
+        end
+        else if(flush) begin
+            JB_Pc <= '0;
+            JB_RegisterData1 <= '0;
+            JB_RegisterData2 <= '0;
+            JB_ImmediateGen <= '0;
+            JB_Funct7 <= '0;
+            JB_Funct3 <= '0;
+            JB_Rs1 <= '0;
+            JB_Rs2 <= '0;
+            JB_Rd <= '0;
+
+            JB_RegWrite <= '0;
+            JB_MemToReg <= '0;
+            JB_MemWrite <= '0;
+            JB_MemRead <= '0;
+            JB_Immediate <= '0;
+            JB_ALUOp <= '0;
+            JB_Jump <= '0;
+            JB_Auipc <= '0;
+            JB_IsJALR <= '0;
+            JB_AttemptBranch <= '0;
+        end
+        else if(!stall) begin
+            JB_Pc <= ID_Pc;
+            JB_RegisterData1 <= ID_RegisterData1;
+            JB_RegisterData2 <= ID_RegisterData2;
+            JB_ImmediateGen <= ID_ImmediateGen;
+            JB_Funct7 <= ID_Funct7;
+            JB_Funct3 <= ID_Funct3;
+            JB_Rs1 <= ID_Rs1;
+            JB_Rs2 <= ID_Rs2;
+            JB_Rd <= ID_Rd;
+
+            JB_RegWrite <= ID_RegWrite;
+            JB_MemToReg <= ID_MemToReg;
+            JB_MemWrite <= ID_MemWrite;
+            JB_MemRead <= ID_MemRead;
+            JB_Immediate <= ID_Immediate;
+            JB_ALUOp <= ID_ALUOp;
+            JB_Jump <= ID_Jump;
+            JB_Auipc <= ID_Auipc;
+            JB_IsJALR <= ID_IsJALR;
+            JB_AttemptBranch <= ID_AttemptBranch;
+        end
+    end
+endmodule
+
+module JB_EX_Register #(
+    parameter int WIDTH = 32
+)
+(
+    input logic[WIDTH-1:0] JB_Pc,
+    input logic[WIDTH-1:0] JB_RegisterData1,
+    input logic[WIDTH-1:0] JB_RegisterData2,
+    input logic[WIDTH-1:0] JB_ImmediateGen,
+    input logic[6:0] JB_Funct7,
+    input logic[2:0] JB_Funct3,
+    input logic[4:0] JB_Rs1,
+    input logic[4:0] JB_Rs2,
+    input logic[4:0] JB_Rd,
+
+    input logic JB_RegWrite,
+    input logic JB_MemToReg,
+    input logic JB_MemRead,
+    input logic JB_MemWrite,
+    input logic[2:0] JB_ALUOp,
+    input logic JB_Immediate,
+    input logic JB_Jump,
+    input logic JB_Auipc,
 
     input logic clk,
     input logic reset,
@@ -96,45 +222,25 @@ module ID_EX_Register #(
             EX_Jump <= '0;
             EX_Auipc <= '0;
         end
-        // else if(flush) begin
-        //     EX_Pc <= '0;
-        //     EX_RegisterData1 <= '0;
-        //     EX_RegisterData2 <= '0;
-        //     EX_ImmediateGen <= '0;
-        //     EX_Funct7 <= '0;
-        //     EX_Funct3 <= '0;
-        //     EX_Rs1 <= '0;
-        //     EX_Rs2 <= '0;
-        //     EX_Rd <= '0;
-
-        //     EX_RegWrite <= '0;
-        //     EX_MemToReg <= '0;
-        //     EX_MemWrite <= '0;
-        //     EX_MemRead <= '0;
-        //     EX_Immediate <= '0;
-        //     EX_ALUOp <= '0;
-        //     EX_Jump <= '0;
-        //     EX_Auipc <= '0;
-        // end
         else begin
-            EX_Pc <= ID_Pc;
-            EX_RegisterData1 <= ID_RegisterData1;
-            EX_RegisterData2 <= ID_RegisterData2;
-            EX_ImmediateGen <= ID_ImmediateGen;
-            EX_Funct7 <= ID_Funct7;
-            EX_Funct3 <= ID_Funct3;
-            EX_Rs1 <= ID_Rs1;
-            EX_Rs2 <= ID_Rs2;
-            EX_Rd <= ID_Rd;
+            EX_Pc <= JB_Pc;
+            EX_RegisterData1 <= JB_RegisterData1;
+            EX_RegisterData2 <= JB_RegisterData2;
+            EX_ImmediateGen <= JB_ImmediateGen;
+            EX_Funct7 <= JB_Funct7;
+            EX_Funct3 <= JB_Funct3;
+            EX_Rs1 <= JB_Rs1;
+            EX_Rs2 <= JB_Rs2;
+            EX_Rd <= JB_Rd;
 
-            EX_RegWrite <= ID_RegWrite;
-            EX_MemToReg <= ID_MemToReg;
-            EX_MemWrite <= ID_MemWrite;
-            EX_MemRead <= ID_MemRead;
-            EX_Immediate <= ID_Immediate;
-            EX_ALUOp <= ID_ALUOp;
-            EX_Jump <= ID_Jump;
-            EX_Auipc <= ID_Auipc;
+            EX_RegWrite <= JB_RegWrite;
+            EX_MemToReg <= JB_MemToReg;
+            EX_MemWrite <= JB_MemWrite;
+            EX_MemRead <= JB_MemRead;
+            EX_Immediate <= JB_Immediate;
+            EX_ALUOp <= JB_ALUOp;
+            EX_Jump <= JB_Jump;
+            EX_Auipc <= JB_Auipc;
         end
     end
 endmodule

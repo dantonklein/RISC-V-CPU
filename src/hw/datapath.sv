@@ -25,8 +25,8 @@ assign ten_bit_zero = 0;
 
 //Instruction Fetch Stage
 logic IF_Mispredict;
-logic IF_Not_Stall;
-logic IF_Stall;
+logic Not_Stall;
+logic Stall;
 
 logic[1:0] IF_Pc_Mux_Select;
 
@@ -36,28 +36,7 @@ logic[31:0] IF_Pc_Mux;
 logic[31:0] IF_Pc;
 logic[31:0] IF_Instruction;
 
-//ID Stage
-logic ID_Stall;
-logic ID_Flush;
-logic ID_Flush_Delayed;
-logic ID_Jump;
-logic ID_Mispredict;
-logic ID_PredictBranchTaken;
-logic ID_AttemptBranch;
-logic ID_IsJALR;
-logic ID_BranchTaken;
-
-logic ID_Jump_Pre_Mux;
-logic ID_RegWrite_Pre_Mux;
-logic ID_MemToReg_Pre_Mux;
-logic ID_MemRead_Pre_Mux;
-logic ID_MemWrite_Pre_Mux;
-logic[2:0] ID_ALUOp_Pre_Mux;
-logic ID_Immediate_Pre_Mux;
-logic ID_Auipc_Pre_Mux;
-logic[9:0] ID_Packaged_Mux_Input;
-logic ID_Stall_Mux_Select;
-logic[9:0] ID_Packaged_Mux_Output;
+//Instruction Decode Stage
 
 logic ID_RegWrite;
 logic ID_MemToReg;
@@ -66,26 +45,15 @@ logic ID_MemWrite;
 logic[2:0] ID_ALUOp;
 logic ID_Immediate;
 logic ID_Auipc;
+logic ID_IsJALR;
+logic ID_Jump;
+logic ID_AttemptBranch;
 
-logic ID_Branch_Alu;
-
-logic[31:0] ID_Branch_Target_Adder;
-logic[31:0] ID_Pc_Plus_Four_Adder;
-logic[31:0] ID_Corrected_Pc_Mux;
-logic[31:0] ID_Corrected_Pc_Register;
-logic[31:0] ID_Jump_Adder;
 logic[31:0] ID_Pc;
 logic[31:0] ID_Instruction;
 logic[31:0] ID_Read_Data_1;
 logic[31:0] ID_Read_Data_2;
 logic[31:0] ID_Immediate_Generator;
-logic[31:0] ID_Jump_Adder_Mux;
-
-logic[31:0] ID_Branch_Alu_Forward_Mux1;
-logic[31:0] ID_Branch_Alu_Forward_Mux2;
-
-logic[1:0] ID_Branch_Alu_Forward_Mux_Select_1;
-logic[1:0] ID_Branch_Alu_Forward_Mux_Select_2;
 
 logic[4:0] ID_Rs1;
 logic[4:0] ID_Rs2;
@@ -93,6 +61,63 @@ logic[4:0] ID_Rd;
 logic[2:0] ID_Funct3;
 logic[6:0] ID_Funct7;
 
+//Jumps and Branches Stage
+
+logic JB_RegWrite;
+logic JB_MemToReg;
+logic JB_MemRead;
+logic JB_MemWrite;
+logic[2:0] JB_ALUOp;
+logic JB_Immediate;
+logic JB_Auipc;
+logic JB_IsJALR;
+logic JB_Jump;
+logic JB_AttemptBranch;
+
+logic[31:0] JB_Pc;
+logic[31:0] JB_Read_Data_1;
+logic[31:0] JB_Read_Data_2;
+logic[31:0] JB_Immediate_Generator;
+
+logic[4:0] JB_Rs1;
+logic[4:0] JB_Rs2;
+logic[4:0] JB_Rd;
+logic[2:0] JB_Funct3;
+logic[6:0] JB_Funct7;
+
+logic[31:0] JB_Branch_Target_Adder;
+logic[31:0] JB_Pc_Plus_Four_Adder;
+logic[31:0] JB_Corrected_Pc_Mux;
+logic[31:0] JB_Corrected_Pc_Register;
+logic[31:0] JB_Jump_Adder;
+logic[31:0] JB_Jump_Adder_Mux;
+
+logic JB_BranchTaken;
+logic JB_Mispredict;
+logic JB_PredictBranchTaken;
+
+logic JB_Stall;
+logic JB_Flush;
+logic JB_Jump_Pre_Mux;
+logic JB_RegWrite_Pre_Mux;
+logic JB_MemToReg_Pre_Mux;
+logic JB_MemRead_Pre_Mux;
+logic JB_MemWrite_Pre_Mux;
+logic[2:0] JB_ALUOp_Pre_Mux;
+logic JB_Immediate_Pre_Mux;
+logic JB_Auipc_Pre_Mux;
+
+logic[9:0] JB_Packaged_Mux_Input;
+logic JB_Stall_Mux_Select;
+logic[9:0] JB_Packaged_Mux_Output;
+
+logic[31:0] JB_Branch_Alu_Forward_Mux1;
+logic[31:0] JB_Branch_Alu_Forward_Mux2;
+
+logic[1:0] JB_Branch_Alu_Forward_Mux_Select_1;
+logic[1:0] JB_Branch_Alu_Forward_Mux_Select_2;
+
+logic JB_Branch_Alu;
 //Execution Stage
 logic EX_RegWrite;
 logic EX_MemToReg;
@@ -162,9 +187,9 @@ logic[4:0] WB_Rd;
 //Instruction Fetch Stage
 
 mux_controller IF_PC_MUX_CONTROLLER (
-    .ID_PredictBranchTaken(ID_PredictBranchTaken),
+    .JB_PredictBranchTaken(JB_PredictBranchTaken),
     .IF_Mispredict(IF_Mispredict),
-    .ID_Jump(ID_Jump),
+    .JB_Jump(JB_Jump),
     .MUX_Select(IF_Pc_Mux_Select)
 );
 
@@ -173,15 +198,15 @@ mux4x1 #(
     .WIDTH(32)
 ) IF_PC_MUX (
     .in0(IF_Pc_Adder),
-    .in1(ID_Branch_Target_Adder),
-    .in2(ID_Corrected_Pc_Register),
-    .in3(ID_Jump_Adder),
+    .in1(JB_Branch_Target_Adder),
+    .in2(JB_Corrected_Pc_Register),
+    .in3(JB_Jump_Adder),
     .select(IF_Pc_Mux_Select),
     .data_out(IF_Pc_Mux)
 );
 
-assign IF_Stall = !debug_enable || ID_Stall;
-assign IF_Not_Stall = !IF_Stall; 
+assign Stall = !debug_enable || JB_Stall;
+assign Not_Stall = !Stall; 
 
 register #(
     .WIDTH(32)
@@ -189,7 +214,7 @@ register #(
     .in(IF_Pc_Mux),
     .clk(clk),
     .reset(rst),
-    .enable(IF_Not_Stall),
+    .enable(Not_Stall),
     .data_out(IF_Pc)
 );
 
@@ -201,10 +226,11 @@ adder #(
     .out(IF_Pc_Adder)
 );
 
-register #(
-    .WIDTH(1)
+delay #(
+    .WIDTH(1),
+    .CYCLES(2)
 ) IF_MISPREDICT_DELAY (
-    .in(ID_Mispredict),
+    .in(JB_Mispredict),
     .clk(clk),
     .reset(rst),
     .enable(on),
@@ -233,7 +259,8 @@ IF_ID_Register #(
     .IF_Instruction(IF_Instruction),
     .clk(clk),
     .reset(rst),
-    .stall(IF_Stall),
+    .stall(Stall),
+    .flush(JB_Flush)
     .ID_Pc(ID_Pc),
     .ID_Instruction(ID_Instruction)
 );
@@ -244,67 +271,19 @@ assign ID_Rs1 = ID_Instruction[19:15];
 assign ID_Funct3 = ID_Instruction[14:12];
 assign ID_Rd = ID_Instruction[11:7];
 
-//delay flush one cycle
-always_ff @ (posedge clk) begin
-    ID_Flush_Delayed <= ID_Flush;
-end
 
 control ID_CONTROL_UNIT (
     .instruction(ID_Instruction[6:0]),
-    .delayed_flush(ID_Flush_Delayed),
     .AttemptBranch(ID_AttemptBranch),
     .IsJALR(ID_IsJALR),
-    .Jump(ID_Jump_Pre_Mux),
-    .RegWrite(ID_RegWrite_Pre_Mux),
-    .MemToReg(ID_MemToReg_Pre_Mux),
-    .MemRead(ID_MemRead_Pre_Mux),
-    .MemWrite(ID_MemWrite_Pre_Mux),
-    .ALUOp(ID_ALUOp_Pre_Mux),
-    .Immediate(ID_Immediate_Pre_Mux),
-    .Auipc(ID_Auipc_Pre_Mux)
-);
-
-assign ID_Stall_Mux_Select = ID_Stall | ID_Flush;
-
-assign ID_Packaged_Mux_Input = 
-{ID_Jump_Pre_Mux,ID_RegWrite_Pre_Mux,ID_MemToReg_Pre_Mux,ID_MemRead_Pre_Mux,
-ID_MemWrite_Pre_Mux,ID_ALUOp_Pre_Mux,ID_Immediate_Pre_Mux,ID_Auipc_Pre_Mux};
-
-assign {ID_Jump,ID_RegWrite,ID_MemToReg,ID_MemRead,ID_MemWrite,ID_ALUOp,
-ID_Immediate,ID_Auipc} = ID_Packaged_Mux_Output;
-
-mux2x1 #(
-    .WIDTH(10)
-) ID_STALL_MUX (
-    .in0(ID_Packaged_Mux_Input),
-    .in1(ten_bit_zero),
-    .select(ID_Stall_Mux_Select),
-    .data_out(ID_Packaged_Mux_Output)
-);
-
-hazard_unit ID_HAZARD_DETECTION_UNIT (
-    .ID_AttemptBranch(ID_AttemptBranch),
-    .ID_BranchTaken(ID_BranchTaken),
-    .ID_PredictBranchTaken(ID_PredictBranchTaken),
-    .ID_IsJALR(ID_IsJALR),
-    .EX_RegWrite(EX_RegWrite),
-    .EX_MemRead(EX_MemRead),
-    .EX_Rd(EX_Rd),
-    .ID_Rs1(ID_Rs1),
-    .ID_Rs2(ID_Rs2),
-    .flush(ID_Flush),
-    .mispredict(ID_Mispredict),
-    .ID_Stall(ID_Stall),
-    .clk(clk),
-    .rst(rst)
-);
-
-adder #(
-    .WIDTH(32)
-) ID_PC_PLUS_FOUR_ADDER (
-    .in0(ID_Pc),
-    .in1(four),
-    .out(ID_Pc_Plus_Four_Adder)
+    .Jump(ID_Jump),
+    .RegWrite(ID_RegWrite),
+    .MemToReg(ID_MemToReg),
+    .MemRead(ID_MemRead),
+    .MemWrite(ID_MemWrite),
+    .ALUOp(ID_ALUOp),
+    .Immediate(ID_Immediate),
+    .Auipc(ID_Auipc)
 );
 
 registerfile #(
@@ -328,114 +307,10 @@ immgen #(
     .extended_immediate(ID_Immediate_Generator)
 );
 
-adder #(
+
+ID_JB_Register #(
     .WIDTH(32)
-) ID_BRANCH_TARGET_ADDER (
-    .in0(ID_Pc),
-    .in1(ID_Immediate_Generator),
-    .out(ID_Branch_Target_Adder)
-);
-
-mux2x1 #(
-    .WIDTH(32)
-) ID_CORRECTED_PC_MUX (
-    .in0(ID_Branch_Target_Adder),
-    .in1(ID_Pc_Plus_Four_Adder),
-    .select(ID_PredictBranchTaken),
-    .data_out(ID_Corrected_Pc_Mux)
-);
-
-register #(
-    .WIDTH(32)
-) ID_CORRECTED_PC_REGISTER(
-    .in(ID_Corrected_Pc_Mux),
-    .clk(clk),
-    .reset(rst),
-    .enable(on),
-    .data_out(ID_Corrected_Pc_Register)
-);
-
-
-branch_prediction #(
-    .table_width(3)
-) ID_BRANCH_PREDICTION_UNIT (
-    .ID_PC_Slice(ID_Pc[4:2]),
-    .ID_BranchTaken(ID_BranchTaken),
-    .ID_AttemptBranch(ID_AttemptBranch),
-    .clk(clk),
-    .rst(rst),
-    .ID_PredictBranchTaken(ID_PredictBranchTaken)
-);
-
-assign ID_BranchTaken = ID_AttemptBranch & ID_Branch_Alu;
-
-mux2x1 #(
-    .WIDTH(32)
-) ID_JUMP_ADDER_MUX (
-    .in0(ID_Pc),
-    .in1(ID_Branch_Alu_Forward_Mux1),
-    .select(ID_IsJALR),
-    .data_out(ID_Jump_Adder_Mux)
-);
-
-adder #(
-    .WIDTH(32)
-) ID_JUMP_ADDER (
-    .in0(ID_Jump_Adder_Mux),
-    .in1(ID_Immediate_Generator),
-    .out(ID_Jump_Adder)
-);
-
-branch_alu_forwarding_unit ID_BRANCH_ALU_FORWARDING_UNIT_1 (
-    .MEM_RegWrite(MEM_RegWrite),
-    .WB_RegWrite(WB_RegWrite),
-    .ID_Rs(ID_Rs1),
-    .MEM_Rd(MEM_Rd),
-    .WB_Rd(WB_Rd),
-    .forward_data(ID_Branch_Alu_Forward_Mux_Select_1)
-);
-
-branch_alu_forwarding_unit ID_BRANCH_ALU_FORWARDING_UNIT_2 (
-    .MEM_RegWrite(MEM_RegWrite),
-    .WB_RegWrite(WB_RegWrite),
-    .ID_Rs(ID_Rs2),
-    .MEM_Rd(MEM_Rd),
-    .WB_Rd(WB_Rd),
-    .forward_data(ID_Branch_Alu_Forward_Mux_Select_2)
-);
-
-mux3x1 #(
-    .WIDTH(32)
-) ID_BRANCH_ALU_FORWARD_MUX1 (
-    .in0(ID_Read_Data_1),
-    .in1(MEM_Alu_Result),
-    .in2(WB_MemOrReg_Mux),
-    .select(ID_Branch_Alu_Forward_Mux_Select_1),
-    .data_out(ID_Branch_Alu_Forward_Mux1)
-);
-
-mux3x1 #(
-    .WIDTH(32)
-) ID_BRANCH_ALU_FORWARD_MUX2 (
-    .in0(ID_Read_Data_2),
-    .in1(MEM_Alu_Result),
-    .in2(WB_MemOrReg_Mux),
-    .select(ID_Branch_Alu_Forward_Mux_Select_2),
-    .data_out(ID_Branch_Alu_Forward_Mux2)
-);
-
-branch_alu #(
-    .DATA_WIDTH(32)
-) ID_BRANCH_ALU (
-    .input0(ID_Branch_Alu_Forward_Mux1),
-    .input1(ID_Branch_Alu_Forward_Mux2),
-    .funct3(ID_Funct3),
-    .out(ID_Branch_Alu)
-);
-
-ID_EX_Register #(
-    .WIDTH(32)
-) ID_EX_REGISTER (
+) ID_JB_REGISTER (
     .ID_Pc(ID_Pc),
     .ID_RegisterData1(ID_Read_Data_1),
     .ID_RegisterData2(ID_Read_Data_2),
@@ -454,10 +329,212 @@ ID_EX_Register #(
     .ID_Immediate(ID_Immediate),
     .ID_Jump(ID_Jump),
     .ID_Auipc(ID_Auipc),
+    .ID_IsJALR(ID_IsJALR),
+    .ID_AttemptBranch(ID_AttemptBranch),
 
     .clk(clk),
     .reset(rst),
-    //.flush(ID_Flush),
+    .stall(Stall),
+    .flush(JB_Flush),
+
+    .JB_Pc(JB_Pc),
+    .JB_RegisterData1(JB_Read_Data1),
+    .JB_RegisterData2(JB_Read_Data2),
+    .JB_ImmediateGen(JB_Immediate_Generator),
+    .JB_Funct7(JB_Funct7),
+    .JB_Funct3(JB_Funct3),
+    .JB_Rs1(JB_Rs1),
+    .JB_Rs2(JB_Rs2),
+    .JB_Rd(JB_Rd),
+
+    .JB_RegWrite(JB_RegWrite_Pre_Mux),
+    .JB_MemToReg(JB_MemToReg_Pre_Mux),
+    .JB_MemRead(JB_MemRead_Pre_Mux),
+    .JB_MemWrite(JB_MemWrite_Pre_Mux),
+    .JB_ALUOp(JB_ALUOp_Pre_Mux),
+    .JB_Immediate(JB_Immediate_Pre_Mux),
+    .JB_Jump(JB_Jump_Pre_Mux),
+    .JB_Auipc(JB_Auipc_Pre_Mux),
+    .JB_IsJALR(JB_IsJALR),
+    .JB_AttemptBranch(JB_AttemptBranch)
+);
+
+//Jumps and Branches Stage
+assign JB_Stall_Mux_Select = Stall | JB_Flush;
+
+assign JB_Packaged_Mux_Input = 
+{JB_Jump_Pre_Mux,JB_RegWrite_Pre_Mux,JB_MemToReg_Pre_Mux,JB_MemRead_Pre_Mux,
+JB_MemWrite_Pre_Mux,JB_ALUOp_Pre_Mux,JB_Immediate_Pre_Mux,JB_Auipc_Pre_Mux};
+
+assign {JB_Jump,JB_RegWrite,JB_MemToReg,JB_MemRead,JB_MemWrite,JB_ALUOp,
+JB_Immediate,JB_Auipc} = JB_Packaged_Mux_Output;
+
+mux2x1 #(
+    .WIDTH(10)
+) JB_STALL_MUX (
+    .in0(JB_Packaged_Mux_Input),
+    .in1(ten_bit_zero),
+    .select(JB_Stall_Mux_Select),
+    .data_out(JB_Packaged_Mux_Output)
+);
+
+hazard_unit JB_HAZARD_DETECTION_UNIT (
+    .JB_AttemptBranch(JB_AttemptBranch),
+    .JB_BranchTaken(JB_BranchTaken),
+    .JB_PredictBranchTaken(JB_PredictBranchTaken),
+    .JB_IsJALR(JB_IsJALR),
+    .ID_AttemptBranch(ID_AttemptBranch),
+    .ID_IsJALR(ID_IsJALR),
+    .EX_RegWrite(EX_RegWrite),
+    .EX_MemRead(EX_MemRead),
+    .EX_Rd(EX_Rd),
+    .ID_Rs1(ID_Rs1),
+    .ID_Rs2(ID_Rs2),
+    .flush(JB_Flush),
+    .mispredict(JB_Mispredict),
+    .ID_Stall(JB_Stall),
+    .clk(clk),
+    .rst(rst)
+);
+
+adder #(
+    .WIDTH(32)
+) JB_PC_PLUS_FOUR_ADDER (
+    .in0(JB_Pc),
+    .in1(four),
+    .out(JB_Pc_Plus_Four_Adder)
+);
+
+adder #(
+    .WIDTH(32)
+) JB_BRANCH_TARGET_ADDER (
+    .in0(JB_Pc),
+    .in1(JB_Immediate_Generator),
+    .out(JB_Branch_Target_Adder)
+);
+
+mux2x1 #(
+    .WIDTH(32)
+) JB_CORRECTED_PC_MUX (
+    .in0(JB_Branch_Target_Adder),
+    .in1(JB_Pc_Plus_Four_Adder),
+    .select(JB_PredictBranchTaken),
+    .data_out(JB_Corrected_Pc_Mux)
+);
+
+delay #(
+    .WIDTH(32),
+    .CYCLES(2)
+) JB_CORRECTED_PC_REGISTER(
+    .in(JB_Corrected_Pc_Mux),
+    .clk(clk),
+    .reset(rst),
+    .enable(on),
+    .data_out(JB_Corrected_Pc_Register)
+);
+
+
+branch_prediction #(
+    .table_width(3)
+) JB_BRANCH_PREDICTION_UNIT (
+    .JB_PC_Slice(JB_Pc[4:2]),
+    .JB_BranchTaken(JB_BranchTaken),
+    .JB_AttemptBranch(JB_AttemptBranch),
+    .clk(clk),
+    .rst(rst),
+    .JB_PredictBranchTaken(JB_PredictBranchTaken)
+);
+
+assign JB_BranchTaken = JB_AttemptBranch & JB_Branch_Alu;
+
+mux2x1 #(
+    .WIDTH(32)
+) JB_JUMP_ADDER_MUX (
+    .in0(JB_Pc),
+    .in1(JB_Branch_Alu_Forward_Mux1),
+    .select(JB_IsJALR),
+    .data_out(JB_Jump_Adder_Mux)
+);
+
+adder #(
+    .WIDTH(32)
+) JB_JUMP_ADDER (
+    .in0(JB_Jump_Adder_Mux),
+    .in1(JB_Immediate_Generator),
+    .out(JB_Jump_Adder)
+);
+
+branch_alu_forwarding_unit JB_BRANCH_ALU_FORWARDING_UNIT_1 (
+    .MEM_RegWrite(MEM_RegWrite),
+    .WB_RegWrite(WB_RegWrite),
+    .ID_Rs(JB_Rs1),
+    .MEM_Rd(MEM_Rd),
+    .WB_Rd(WB_Rd),
+    .forward_data(JB_Branch_Alu_Forward_Mux_Select_1)
+);
+
+branch_alu_forwarding_unit ID_BRANCH_ALU_FORWARDING_UNIT_2 (
+    .MEM_RegWrite(MEM_RegWrite),
+    .WB_RegWrite(WB_RegWrite),
+    .ID_Rs(JB_Rs2),
+    .MEM_Rd(MEM_Rd),
+    .WB_Rd(WB_Rd),
+    .forward_data(JB_Branch_Alu_Forward_Mux_Select_2)
+);
+
+mux3x1 #(
+    .WIDTH(32)
+) JB_BRANCH_ALU_FORWARD_MUX1 (
+    .in0(JB_Read_Data_1),
+    .in1(MEM_Alu_Result),
+    .in2(WB_MemOrReg_Mux),
+    .select(JB_Branch_Alu_Forward_Mux_Select_1),
+    .data_out(JB_Branch_Alu_Forward_Mux1)
+);
+
+mux3x1 #(
+    .WIDTH(32)
+) JB_BRANCH_ALU_FORWARD_MUX2 (
+    .in0(JB_Read_Data_2),
+    .in1(MEM_Alu_Result),
+    .in2(WB_MemOrReg_Mux),
+    .select(JB_Branch_Alu_Forward_Mux_Select_2),
+    .data_out(JB_Branch_Alu_Forward_Mux2)
+);
+
+branch_alu #(
+    .DATA_WIDTH(32)
+) ID_BRANCH_ALU (
+    .input0(JB_Branch_Alu_Forward_Mux1),
+    .input1(JB_Branch_Alu_Forward_Mux2),
+    .funct3(JB_Funct3),
+    .out(JB_Branch_Alu)
+);
+
+JB_EX_Register #(
+    .WIDTH(32)
+) JB_EX_REGISTER (
+    .JB_Pc(JB_Pc),
+    .JB_RegisterData1(JB_Read_Data_1),
+    .JB_RegisterData2(JB_Read_Data_2),
+    .JB_ImmediateGen(JB_Immediate_Generator),
+    .JB_Funct7(JB_Funct7),
+    .JB_Funct3(JB_Funct3),
+    .JB_Rs1(JB_Rs1),
+    .JB_Rs2(JB_Rs2),
+    .JB_Rd(JB_Rd),
+
+    .JB_RegWrite(JB_RegWrite),
+    .JB_MemToReg(JB_MemToReg),
+    .JB_MemRead(JB_MemRead),
+    .JB_MemWrite(JB_MemWrite),
+    .JB_ALUOp(JB_ALUOp),
+    .JB_Immediate(JB_Immediate),
+    .JB_Jump(JB_Jump),
+    .JB_Auipc(JB_Auipc),
+
+    .clk(clk),
+    .reset(rst),
 
     .EX_Pc(EX_Pc),
     .EX_RegisterData1(EX_Read_Data1),

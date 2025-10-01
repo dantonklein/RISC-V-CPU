@@ -1,14 +1,14 @@
 module branch_prediction #(
     parameter int table_width = 3
 )(
-    input logic[table_width-1:0] ID_PC_Slice, //PC[4:2]
-    input logic ID_BranchTaken,
-    input logic ID_AttemptBranch,
+    input logic[table_width-1:0] JB_PC_Slice, //PC[4:2]
+    input logic JB_BranchTaken,
+    input logic JB_AttemptBranch,
 
     input logic clk,
     input logic rst,
 
-    output logic ID_PredictBranchTaken
+    output logic JB_PredictBranchTaken
 
 );
     localparam logic [1:0] Strongly_Not_Taken = 2'b00;
@@ -27,19 +27,19 @@ module branch_prediction #(
             end
         end else begin
             //Array Of Saturation Counters
-            if(ID_AttemptBranch) begin
-                if(ID_BranchTaken) begin
+            if(JB_AttemptBranch) begin
+                if(JB_BranchTaken) begin
                     //increment unless full
-                    if(bht[ID_PC_Slice] != Strongly_Taken) bht[ID_PC_Slice] <= bht[ID_PC_Slice] + 1;
+                    if(bht[JB_PC_Slice] != Strongly_Taken) bht[JB_PC_Slice] <= bht[JB_PC_Slice] + 1;
                 end else begin
                     //decrement unless empty
-                    if(bht[ID_PC_Slice] != Strongly_Not_Taken) bht[ID_PC_Slice] <= bht[ID_PC_Slice] - 1;
+                    if(bht[JB_PC_Slice] != Strongly_Not_Taken) bht[JB_PC_Slice] <= bht[JB_PC_Slice] - 1;
                 end
                 
             end
         end
     end
     //left bit of bht slot used to predict if a branch is taken.
-    assign ID_PredictBranchTaken = bht[ID_PC_Slice][1];
+    assign JB_PredictBranchTaken = bht[JB_PC_Slice][1];
 
 endmodule

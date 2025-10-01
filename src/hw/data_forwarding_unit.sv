@@ -38,7 +38,7 @@ endmodule
 module branch_alu_forwarding_unit (
     input logic MEM_RegWrite,
     input logic WB_RegWrite,
-    input logic[4:0] ID_Rs,
+    input logic[4:0] JB_Rs,
     input logic[4:0] MEM_Rd,
     input logic[4:0] WB_Rd,
     output logic[1:0] forward_data
@@ -48,8 +48,8 @@ module branch_alu_forwarding_unit (
     //output = 2 (data comes from write back stage)
     //forwarding unit for branch alu input
     always_comb begin
-        if(MEM_RegWrite && (MEM_Rd != 5'd0) && (MEM_Rd == ID_Rs)) forward_data = 2'd1;
-        else if(WB_RegWrite && (WB_Rd != 5'd0) && (WB_Rd == ID_Rs)) forward_data = 2'd2;
+        if(MEM_RegWrite && (MEM_Rd != 5'd0) && (MEM_Rd == JB_Rs)) forward_data = 2'd1;
+        else if(WB_RegWrite && (WB_Rd != 5'd0) && (WB_Rd == JB_Rs)) forward_data = 2'd2;
         else forward_data = 2'd0;
     end
 
