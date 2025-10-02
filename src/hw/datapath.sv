@@ -13,12 +13,12 @@ module datapath #(
 );
 logic [31:0] four;
 logic on;
-logic off;
+//logic off;
 logic [9:0] ten_bit_zero;
 
 assign four = 32'd4;
 assign on = 1;
-assign off = 0;
+//assign off = 0;
 assign ten_bit_zero = 0;
 
 //Intermediary Signals
@@ -75,8 +75,8 @@ logic JB_Jump;
 logic JB_AttemptBranch;
 
 logic[31:0] JB_Pc;
-logic[31:0] JB_Read_Data_1;
-logic[31:0] JB_Read_Data_2;
+logic[31:0] JB_Read_Data1;
+logic[31:0] JB_Read_Data2;
 logic[31:0] JB_Immediate_Generator;
 
 logic[4:0] JB_Rs1;
@@ -189,7 +189,7 @@ logic[4:0] WB_Rd;
 mux_controller IF_PC_MUX_CONTROLLER (
     .JB_PredictBranchTaken(JB_PredictBranchTaken),
     .IF_Mispredict(IF_Mispredict),
-    .JB_Jump(JB_Jump),
+    .JB_Jump(JB_Jump_Pre_Mux),
     .MUX_Select(IF_Pc_Mux_Select)
 );
 
@@ -244,6 +244,8 @@ instruction_ram #(
     .RAM_SIZE_WIDTH(ADDR_WIDTH)
 ) IF_INSTRUCTION_RAM (
     .clk(clk),
+    .flush(JB_Flush),
+    .stall(Stall),
     .instruction_write(instruction_write),
     .instruction_in(instruction_in),
     .PC15_2(IF_Pc[15:2]),
@@ -260,7 +262,7 @@ IF_ID_Register #(
     .clk(clk),
     .reset(rst),
     .stall(Stall),
-    .flush(JB_Flush)
+    .flush(JB_Flush),
     .ID_Pc(ID_Pc),
     .ID_Instruction(ID_Instruction)
 );
@@ -382,17 +384,17 @@ hazard_unit JB_HAZARD_DETECTION_UNIT (
     .JB_AttemptBranch(JB_AttemptBranch),
     .JB_BranchTaken(JB_BranchTaken),
     .JB_PredictBranchTaken(JB_PredictBranchTaken),
-    .JB_IsJALR(JB_IsJALR),
+    .JB_Jump(JB_Jump_Pre_Mux),
     .ID_AttemptBranch(ID_AttemptBranch),
     .ID_IsJALR(ID_IsJALR),
-    .EX_RegWrite(EX_RegWrite),
+    //.EX_RegWrite(EX_RegWrite),
     .EX_MemRead(EX_MemRead),
     .EX_Rd(EX_Rd),
     .ID_Rs1(ID_Rs1),
     .ID_Rs2(ID_Rs2),
     .flush(JB_Flush),
     .mispredict(JB_Mispredict),
-    .ID_Stall(JB_Stall),
+    .JB_Stall(JB_Stall),
     .clk(clk),
     .rst(rst)
 );
@@ -467,7 +469,7 @@ adder #(
 branch_alu_forwarding_unit JB_BRANCH_ALU_FORWARDING_UNIT_1 (
     .MEM_RegWrite(MEM_RegWrite),
     .WB_RegWrite(WB_RegWrite),
-    .ID_Rs(JB_Rs1),
+    .JB_Rs(JB_Rs1),
     .MEM_Rd(MEM_Rd),
     .WB_Rd(WB_Rd),
     .forward_data(JB_Branch_Alu_Forward_Mux_Select_1)
@@ -476,7 +478,7 @@ branch_alu_forwarding_unit JB_BRANCH_ALU_FORWARDING_UNIT_1 (
 branch_alu_forwarding_unit ID_BRANCH_ALU_FORWARDING_UNIT_2 (
     .MEM_RegWrite(MEM_RegWrite),
     .WB_RegWrite(WB_RegWrite),
-    .ID_Rs(JB_Rs2),
+    .JB_Rs(JB_Rs2),
     .MEM_Rd(MEM_Rd),
     .WB_Rd(WB_Rd),
     .forward_data(JB_Branch_Alu_Forward_Mux_Select_2)
@@ -485,7 +487,7 @@ branch_alu_forwarding_unit ID_BRANCH_ALU_FORWARDING_UNIT_2 (
 mux3x1 #(
     .WIDTH(32)
 ) JB_BRANCH_ALU_FORWARD_MUX1 (
-    .in0(JB_Read_Data_1),
+    .in0(JB_Read_Data1),
     .in1(MEM_Alu_Result),
     .in2(WB_MemOrReg_Mux),
     .select(JB_Branch_Alu_Forward_Mux_Select_1),
@@ -495,7 +497,7 @@ mux3x1 #(
 mux3x1 #(
     .WIDTH(32)
 ) JB_BRANCH_ALU_FORWARD_MUX2 (
-    .in0(JB_Read_Data_2),
+    .in0(JB_Read_Data2),
     .in1(MEM_Alu_Result),
     .in2(WB_MemOrReg_Mux),
     .select(JB_Branch_Alu_Forward_Mux_Select_2),
@@ -515,8 +517,8 @@ JB_EX_Register #(
     .WIDTH(32)
 ) JB_EX_REGISTER (
     .JB_Pc(JB_Pc),
-    .JB_RegisterData1(JB_Read_Data_1),
-    .JB_RegisterData2(JB_Read_Data_2),
+    .JB_RegisterData1(JB_Read_Data1),
+    .JB_RegisterData2(JB_Read_Data2),
     .JB_ImmediateGen(JB_Immediate_Generator),
     .JB_Funct7(JB_Funct7),
     .JB_Funct3(JB_Funct3),

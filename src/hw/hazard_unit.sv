@@ -5,7 +5,7 @@ module hazard_unit(
     input logic JB_Jump,
     input logic ID_AttemptBranch,
     input logic ID_IsJALR,
-    input logic EX_RegWrite,
+    //input logic EX_RegWrite,
     input logic EX_MemRead,
     input logic[4:0] EX_Rd,
     input logic[4:0] ID_Rs1,

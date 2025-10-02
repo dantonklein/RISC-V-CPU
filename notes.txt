@@ -363,3 +363,5 @@ add stall and flush to instruction ram in datapath
 remove flush from control in datapath
 
 modify hazard unit to accomodate state changes
+
+performed interative timing analysis and optimization to achieve a clock frequency of 85 MHz
