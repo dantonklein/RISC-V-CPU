@@ -2,7 +2,7 @@
 RISC-V CPU design with a 6 stage pipeline, data forwarding, hazard detection and branch prediction. This project was done to improve my understanding of the RISC-V architecture and general computer architecture principles. 
 
 Current Design of the CPU:
-![alt text](https://github.com/dantonklein/RISC-V-CPU/blob/master/Danton_RISCV.png)
+![alt text](https://github.com/dantonklein/RISC-V-CPU/blob/master/Danton_RISCV6.png)
 
 Roadmap (Things I will be implementing next): 
 1. Exeception/Interrupt Handling (Ecall, Ebreak, Sret.wfi)
